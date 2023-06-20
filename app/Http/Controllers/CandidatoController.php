@@ -12,7 +12,14 @@ class CandidatoController extends Controller
      */
     public function index()
     {
-        //
+        return view(
+            'candidatos.index',
+            [
+                'title' => 'Candidatos',
+                'data' => Candidato::all(),
+                'headers' => ['nombre', 'dni', 'telefono', 'email', 'genero']
+            ]
+        );
     }
 
     /**
