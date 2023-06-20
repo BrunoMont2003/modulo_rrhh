@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidato;
+use App\Models\Curriculum;
 use Illuminate\Http\Request;
 
 class CandidatoController extends Controller
@@ -10,9 +11,11 @@ class CandidatoController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
-        $candidatos = Candidato::all()->take(10);
+        $candidatos = Candidato::paginate(10);
 
         foreach ($candidatos as $candidato) {
             $candidato->curriculum = $candidato->curriculum->enlace;
@@ -34,7 +37,7 @@ class CandidatoController extends Controller
      */
     public function create()
     {
-        //
+        return view('candidatos.create', ['title' => 'Nuevo candidato']);
     }
 
     /**
@@ -42,7 +45,24 @@ class CandidatoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $candidato = new Candidato();
+        $candidato->nombre = $request->nombre;
+        $candidato->dni = $request->dni;
+        $candidato->telefono = $request->telefono;
+        $candidato->email = $request->email;
+        $candidato->fecha_nacimiento = $request->fecha_nacimiento;
+        $candidato->direccion = $request->direccion;
+        $candidato->save();
+
+        $curriculum = new Curriculum();
+        $curriculum->candidato_id = $candidato->id;
+        $curriculum->titulo = "Curriculum de " . $candidato->nombre;
+        $curriculum->enlace = $request->curriculum_enlace;
+
+        $curriculum->save();
+
+
+        return redirect()->route('candidatos.index');
     }
 
     /**
