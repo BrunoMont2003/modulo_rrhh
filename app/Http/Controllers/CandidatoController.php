@@ -12,12 +12,19 @@ class CandidatoController extends Controller
      */
     public function index()
     {
+        $candidatos = Candidato::all()->take(10);
+
+        foreach ($candidatos as $candidato) {
+            $candidato->curriculum = $candidato->curriculum->enlace;
+        }
         return view(
             'candidatos.index',
             [
                 'title' => 'Candidatos',
-                'data' => Candidato::all(),
-                'headers' => ['nombre', 'dni', 'telefono', 'email', 'genero']
+                'data' => $candidatos,
+                'headers' => ['nombre', 'dni', 'telefono', 'email', 'cv'],
+                'columns' => ['nombre', 'dni', 'telefono', 'email', 'curriculum'],
+                'columns_links' => ['curriculum' => 'Ir']
             ]
         );
     }

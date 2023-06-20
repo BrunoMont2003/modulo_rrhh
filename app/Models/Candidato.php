@@ -19,15 +19,14 @@ class Candidato extends Model
         'email',
     ];
 
-
     public function antecendentes()
     {
         return $this->hasMany(Antecedente::class);
     }
 
-    public function curriculums()
+    public function curriculum()
     {
-        return $this->hasMany(Curriculum::class);
+        return $this->hasOne(Curriculum::class);
     }
 
     public function candidato_plazas()

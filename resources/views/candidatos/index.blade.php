@@ -5,11 +5,11 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="p-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white shadow-sm overflow-hidden sm:rounded-lg w-full">
                 <div class="p-6 text-gray-900">
-                    <x-table :data="$data" :headers="$headers" />
+                    <x-table :columns="$columns" :data="$data" :headers="$headers" :columns_links="$columns_links" />
                 </div>
             </div>
         </div>

@@ -20,7 +20,6 @@ class CurriculumFactory extends Factory
             'candidato_id' => \App\Models\Candidato::factory(),
             'titulo' => $this->faker->sentence,
             'enlace' => $this->faker->url,
-            'fecha_creacion' => $this->faker->date,
         ];
     }
 }

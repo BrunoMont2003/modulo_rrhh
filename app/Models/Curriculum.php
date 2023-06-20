@@ -12,8 +12,7 @@ class Curriculum extends Model
     protected $fillable = [
         'candidato_id',
         'titulo',
-        'enlace',
-        'fecha_creacion',
+        'enlace'
     ];
 
     public function candidato()

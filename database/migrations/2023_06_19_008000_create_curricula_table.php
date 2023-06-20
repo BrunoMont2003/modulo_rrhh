@@ -16,7 +16,6 @@ class CreateCurriculaTable extends Migration
             $table->foreignId('candidato_id')->constrained('candidatos');
             $table->string('titulo');
             $table->string('enlace');
-            $table->date('fecha_creacion');
             $table->timestamps();
         });
     }
