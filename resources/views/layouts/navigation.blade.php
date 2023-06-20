@@ -124,10 +124,26 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            @foreach ($navigation as $title => $link)
+                @if (is_array($link))
+                    <x-responsive-dropdown-nav-link>
+                        <x-slot name="title">{{ __($title) }}</x-slot>
+                        <x-slot name="extraItems">
+                            @foreach ($link as $subTitle => $subLink)
+                                <x-dropdown-link :href="route($subLink)">
+                                    {{ __($subTitle) }}
+                                </x-dropdown-link>
+                            @endforeach
+                        </x-slot>
+                    </x-responsive-dropdown-nav-link>
+                @else
+                    <x-responsive-nav-link :href="route($link)" :active="request()->routeIs($link)">
+                        {{ __($title) }}
+                    </x-responsive-nav-link>
+                @endif
+            @endforeach
         </div>
+        
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
