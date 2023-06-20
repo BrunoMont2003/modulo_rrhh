@@ -12,7 +12,7 @@ class ColaboradorController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Colaborador::all());
     }
 
     /**
