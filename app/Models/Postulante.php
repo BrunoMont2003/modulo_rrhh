@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Candidato extends Model
+class Postulante extends Model
 {
     use HasFactory;
 
@@ -17,20 +18,12 @@ class Candidato extends Model
         'direccion',
         'telefono',
         'email',
+        'curriculum_url',
     ];
 
-    public function antecendentes()
-    {
-        return $this->hasMany(Antecedente::class);
-    }
 
-    public function curriculum()
+    public function postulaciones(): HasMany
     {
-        return $this->hasOne(Curriculum::class);
-    }
-
-    public function candidato_plazas()
-    {
-        return $this->hasMany(CandidatoPlaza::class);
+        return $this->hasMany(PostulantePlaza::class, 'postulante_id');
     }
 }

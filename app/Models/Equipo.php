@@ -11,11 +11,10 @@ class Equipo extends Model
 
     protected $fillable = [
         'nombre',
-        'descripcion',
     ];
 
     public function puestos ()
     {
-        return $this->belongsToMany(Puesto::class);
+        return $this->hasMany(Puesto::class);
     }
 }

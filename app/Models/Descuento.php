@@ -4,20 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Descuento extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'detalle_nomina_id',
+        'nomina_id',
         'concepto',
         'monto',
-        'tipo',
     ];
 
-    public function detalleNomina()
+    public function Nomina(): BelongsTo
     {
-        return $this->belongsTo(DetalleNomina::class);
+        return $this->belongsTo(Nomina::class);
     }
 }

@@ -4,23 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Prestacion extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'detalle_nomina_id',
+        'nomina_id',
         'concepto',
-        'monto',
-        'tipo_prestacion',
-        'fecha_aplicacion',
+        'monto'
     ];
 
     protected $table = 'prestaciones';
-
-    public function detalleNomina()
+    public function Nomina(): BelongsTo
     {
-        return $this->belongsTo(DetalleNomina::class);
+        return $this->belongsTo(Nomina::class);
     }
 }

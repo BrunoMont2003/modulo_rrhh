@@ -4,32 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Horario extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'colaborador_id',
-        'carga_horaria_id',
-        'dia_semana',
-        'hora_inicio',
-        'hora_fin',
-        'asignatura_id',
+        'horas_semana',
+        'horas_mensuales',
+        'empleado_id',
+        'anho',
     ];
 
-    public function colaborador()
+    public function empleado() : BelongsTo
     {
-        return $this->belongsTo(Colaborador::class);
+        return $this->belongsTo(Empleado::class);
     }
 
-    public function carga_horaria()
+    public function detallesHorario() : HasMany
     {
-        return $this->belongsTo(CargaHoraria::class);
-    }
-
-    public function asignatura()
-    {
-        return $this->belongsTo(Asignatura::class);
+        return $this->hasMany(DetalleHorario::class);
     }
 }

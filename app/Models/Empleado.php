@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Colaborador extends Model
+class Empleado extends Model
 {
     use HasFactory;
 
@@ -21,30 +23,30 @@ class Colaborador extends Model
         'email',
         'esDocente',
     ];
-    protected $table = 'colaboradores';
+    protected $table = 'empleados';
 
     protected $casts = [
         'fecha_nacimiento' => 'date',
         'esDocente' => 'boolean',
     ];
 
-    public function puesto()
+    public function puesto(): BelongsTo
     {
         return $this->belongsTo(Puesto::class, 'puesto_id');
     }
 
-    public function contrato()
+    public function contratos(): HasMany
     {
-        return $this->belongsTo(Contrato::class, 'contrato_id');
+        return $this->hasMany(Contrato::class, 'empleado_id');
     }
 
-    public function nominas()
+    public function nominas(): HasMany
     {
-        return $this->hasMany(Nomina::class, 'colaborador_id');
+        return $this->hasMany(Nomina::class, 'empleado_id');
     }
 
-    public function horarios()
+    public function horarios() : HasMany
     {
-        return $this->hasMany(Horario::class, 'colaborador_id');
+        return $this->hasMany(Horario::class, 'empleado_id');
     }
 }

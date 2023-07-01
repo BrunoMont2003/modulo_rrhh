@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Asignatura extends Model
 {
@@ -12,12 +13,11 @@ class Asignatura extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'nivel',
         'grado',
     ];
 
-    public function horarios()
+    public function detallesHorarios(): HasMany
     {
-        return $this->hasMany(Horario::class);
+        return $this->hasMany(DetalleHorario::class);
     }
 }

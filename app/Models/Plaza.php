@@ -21,8 +21,8 @@ class Plaza extends Model
         return $this->belongsTo(Puesto::class, 'puesto_id');
     }
 
-    public function candidatosPlaza()
+    public function postulantes()
     {
-        return $this->hasMany(CandidatoPlaza::class, 'plaza_id');
+        return $this->hasMany(postulantePlaza::class, 'plaza_id');
     }
 }

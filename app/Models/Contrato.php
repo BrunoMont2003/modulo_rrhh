@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Contrato extends Model
 {
@@ -15,6 +16,7 @@ class Contrato extends Model
         'fecha_fin',
         'descripcion',
         'remuneracion',
+        'empleado_id'
     ];
 
     protected $casts = [
@@ -22,8 +24,8 @@ class Contrato extends Model
         'fecha_fin' => 'date',
     ];
 
-    public function colaborador()
+    public function empleado(): BelongsTo
     {
-        return $this->belongsTo(Colaborador::class, 'colaborador_id');
+        return $this->belongsTo(Empleado::class, 'empleado_id');
     }
 }

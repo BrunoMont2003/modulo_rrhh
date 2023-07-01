@@ -25,8 +25,4 @@ class Puesto extends Model
         return $this->hasMany(Plaza::class);
     }
 
-    public function ofertasFormales ()
-    {
-        return $this->hasMany(OfertaFormal::class);
-    }
 }

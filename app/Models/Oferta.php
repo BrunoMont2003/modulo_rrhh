@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class OfertaFormal extends Model
+class Oferta extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'puesto_id',
         'fecha_inicio',
@@ -23,8 +23,9 @@ class OfertaFormal extends Model
         'fecha_fin' => 'date',
     ];
 
-    public function puesto()
+    public function postulantePlaza(): BelongsTo
     {
-        return $this->belongsTo(Puesto::class);
+        return $this->belongsTo(PostulantePlaza::class, 'postulante_id')
+            ->whereInEager('plaza_id', $this->plaza_id);
     }
 }

@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CandidatoPlaza extends Model
+class PostulantePlaza extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = ['candidato_id', 'plaza_id'];
+    protected $primaryKey = ['postulante_id', 'plaza_id'];
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'candidato_id',
+        'postulante_id',
         'plaza_id',
         'estado',
         'fecha_postulacion',
@@ -25,9 +25,9 @@ class CandidatoPlaza extends Model
         'fecha_postulacion' => 'date',
     ];
 
-    public function candidato()
+    public function postulante()
     {
-        return $this->belongsTo(Candidato::class, 'candidato_id');
+        return $this->belongsTo(postulante::class, 'postulante_id');
     }
 
     public function plaza()
