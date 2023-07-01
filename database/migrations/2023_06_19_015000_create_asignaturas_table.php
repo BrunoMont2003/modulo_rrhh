@@ -15,8 +15,7 @@ class CreateAsignaturasTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->text('descripcion')->nullable();
-            $table->enum('nivel', ['primaria', 'secundaria']);
-            $table->enum('grado', ['1', '2', '3', '4', '5', '6']);
+            $table->enum('grado', [1, 2, 3, 4, 5]);
             $table->timestamps();
         });
     }

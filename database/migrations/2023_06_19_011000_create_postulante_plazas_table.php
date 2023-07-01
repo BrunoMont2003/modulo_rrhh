@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidato_plazas', function (Blueprint $table) {
-            $table->unsignedBigInteger('candidato_id');
+        Schema::create('postulante_plazas', function (Blueprint $table) {
+            $table->unsignedBigInteger('postulante_id');
             $table->unsignedBigInteger('plaza_id');
             $table->enum('estado', ['pendiente', 'en revision', 'aprobado', 'rechazado']);
             $table->date('fecha_postulacion');
-            $table->primary(['candidato_id', 'plaza_id']);
-            $table->foreign('candidato_id')->references('id')->on('candidatos')->onDelete('cascade');
+            $table->primary(['postulante_id', 'plaza_id']);
+            $table->foreign('postulante_id')->references('id')->on('postulantes')->onDelete('cascade');
             $table->foreign('plaza_id')->references('id')->on('plazas')->onDelete('cascade');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidato_plazas');
+        Schema::dropIfExists('postulante_plazas');
     }
 };

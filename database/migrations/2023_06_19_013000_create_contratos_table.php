@@ -13,11 +13,12 @@ class CreateContratosTable extends Migration
     {
         Schema::create('contratos', function (Blueprint $table) {
             $table->id();
-            $table->enum('tipo_contrato', ['tiempo completo', 'medio tiempo']);
+            $table->enum('tipo_contrato', ['tiempo completo', 'tiempo parcial']);
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
             $table->text('descripcion');
             $table->decimal('remuneracion', 10, 2);
+            $table->foreignId('empleado_id')->constrained('empleados');
             $table->timestamps();
         });
     }

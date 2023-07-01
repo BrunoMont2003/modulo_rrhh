@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOfertasFormalesTable extends Migration
+class CreateOfertasTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('oferta_formals', function (Blueprint $table) {
+        Schema::create('ofertas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('puesto_id');
             $table->date('fecha_inicio');
@@ -30,6 +30,6 @@ class CreateOfertasFormalesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('oferta_formals');
+        Schema::dropIfExists('ofertas');
     }
 }

@@ -12,15 +12,13 @@ class CreatePrestacionesTable extends Migration
     public function up(): void
     {
         Schema::create('prestaciones', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('detalle_nomina_id');
+            $table->unsignedBigInteger('nomina_id');
             $table->string('concepto');
             $table->decimal('monto', 10, 2);
-            $table->enum('tipo_prestacion', ['bonificacion', 'subsidio', 'incentivo', 'otro']);
-            $table->date('fecha_aplicacion');
             $table->timestamps();
 
-            $table->foreign('detalle_nomina_id')->references('id')->on('detalle_nominas')->onDelete('cascade');
+            $table->foreign('nomina_id')->references('id')->on('nominas')->onDelete('cascade');
+            $table->primary(['nomina_id', 'concepto']);
         });
     }
 

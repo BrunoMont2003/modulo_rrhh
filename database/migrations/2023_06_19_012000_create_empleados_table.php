@@ -4,15 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCandidatosTable extends Migration
+class CreateEmpleadosTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('candidatos', function (Blueprint $table) {
+        Schema::create('empleados', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('puesto_id');
             $table->string('nombre');
             $table->string('dni', 8)->unique();
             $table->date('fecha_nacimiento');
@@ -20,7 +21,9 @@ class CreateCandidatosTable extends Migration
             $table->string('direccion');
             $table->string('telefono');
             $table->string('email')->unique();
+            $table->boolean('esDocente');
             $table->timestamps();
+            $table->foreign('puesto_id')->references('id')->on('puestos');
         });
     }
 
@@ -29,6 +32,6 @@ class CreateCandidatosTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidatos');
+        Schema::dropIfExists('empleados');
     }
 }
