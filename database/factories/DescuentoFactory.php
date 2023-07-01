@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Descuento;
-use App\Models\DetalleNomina;
+use App\Models\Nomina;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DescuentoFactory extends Factory
@@ -17,12 +17,10 @@ class DescuentoFactory extends Factory
      */
     public function definition(): array
     {
-        $detalle_nomina = DetalleNomina::doesntHave('descuento')->doesntHave('prestacion')->doesntHave('sueldo')->inRandomOrder()->first();
         return [
-            'detalle_nomina_id' => $detalle_nomina->id,
+            'nomina_id' => Nomina::InRandomOrder()->first()->id,
             'concepto' => $this->faker->word,
             'monto' => $this->faker->randomFloat(2, 0, 99999),
-            'tipo' => $this->faker->randomElement(['impuesto', 'prestamo', 'contribucion', 'seguro', 'otro']),
         ];
     }
 }

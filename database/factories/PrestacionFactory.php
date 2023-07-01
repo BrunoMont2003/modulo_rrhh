@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\DetalleNomina;
+use App\Models\Nomina;
 use App\Models\Prestacion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,12 +17,10 @@ class PrestacionFactory extends Factory
      */
     public function definition(): array
     {
-        $detalle_nomina = DetalleNomina::doesntHave('descuento')->doesntHave('prestacion')->doesntHave('sueldo')->inRandomOrder()->first();
         return [
-            'detalle_nomina_id' => $detalle_nomina->id,
+            'nomina_id' => Nomina::InRandomOrder()->first()->id,
             'concepto' => $this->faker->word,
             'monto' => $this->faker->randomFloat(2, 0, 99999),
-            'tipo_prestacion' => $this->faker->randomElement(['bonificacion', 'subsidio', 'incentivo', 'otro']),
             'fecha_aplicacion' => $this->faker->date(),
         ];
     }

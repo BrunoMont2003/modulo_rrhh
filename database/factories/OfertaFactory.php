@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\OfertaFormal;
+use App\Models\Oferta;
 use App\Models\Puesto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class OfertaFormalFactory extends Factory
+class OfertaFactory extends Factory
 {
-    protected $model = OfertaFormal::class;
+    protected $model = Oferta::class;
 
     /**
      * Define the model's default state.

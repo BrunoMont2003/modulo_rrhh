@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\CargaHoraria;
+use App\Models\DetalleHorario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CargaHorariaFactory extends Factory
+class DetalleHorarioFactory extends Factory
 {
-    protected $model = CargaHoraria::class;
+    protected $model = DetalleHorario::class;
 
     /**
      * Define the model's default state.

@@ -2,9 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Asignatura;
-use App\Models\CargaHoraria;
-use App\Models\Colaborador;
+use App\Models\Empleado;
 use App\Models\Horario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,15 +17,10 @@ class HorarioFactory extends Factory
      */
     public function definition(): array
     {
-        $hora_inicio = $this->faker->time('H:i:s');
-        $hora_fin = Date('H:i:s', strtotime($hora_inicio . ' + 2 hour'));
         return [
-            'colaborador_id' => Colaborador::inRandomOrder()->first()->id,
-            'carga_horaria_id' => CargaHoraria::inRandomOrder()->first()->id,
-            'dia_semana' => $this->faker->randomElement(['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado']),
-            'hora_inicio' => $hora_inicio,
-            'hora_fin' => $hora_fin,
-            'asignatura_id' => Asignatura::inRandomOrder()->first()->id,
+            'empleado_id' => Empleado::inRandomOrder()->first()->id,
+            'horas_semana' => $this->faker->numberBetween(1, 40),
+            'horas_mensuales' => $this->faker->numberBetween(1, 160),
         ];
     }
 }

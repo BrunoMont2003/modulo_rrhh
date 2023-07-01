@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Candidato;
+use App\Models\Empleado;
+use App\Models\Puesto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CandidatoFactory extends Factory
+class EmpleadoFactory extends Factory
 {
-    protected $model = Candidato::class;
+    protected $model = Empleado::class;
 
     /**
      * Define the model's default state.
@@ -17,13 +18,15 @@ class CandidatoFactory extends Factory
     public function definition(): array
     {
         return [
+            'puesto_id' => 0,
             'nombre' => $this->faker->name,
-            'dni' => $this->faker->unique()->randomNumber(8),
-            'fecha_nacimiento' => $this->faker->dateTimeBetween('-50 years', '-18 years'),
+            'dni' => $this->faker->unique()->numberBetween(10000000, 99999999),
+            'fecha_nacimiento' => $this->faker->date(),
             'genero' => $this->faker->randomElement(['masculino', 'femenino']),
             'direccion' => $this->faker->address,
             'telefono' => $this->faker->phoneNumber,
-            'email' => $this->faker->unique()->email,
+            'email' => $this->faker->unique()->safeEmail,
+            'esDocente' => $this->faker->boolean,
         ];
     }
 }

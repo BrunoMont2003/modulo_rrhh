@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Candidato;
-use App\Models\CandidatoPlaza;
+use App\Models\postulante;
+use App\Models\postulantePlaza;
 use App\Models\Plaza;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CandidatoPlazaFactory extends Factory
+class PostulantePlazaFactory extends Factory
 {
-    protected $model = CandidatoPlaza::class;
+    protected $model = postulantePlaza::class;
 
     /**
      * Define the model's default state.
@@ -19,7 +19,7 @@ class CandidatoPlazaFactory extends Factory
     public function definition(): array
     {
         return [
-            'candidato_id' => Candidato::inRandomOrder()->first()->id,
+            'postulante_id' => postulante::inRandomOrder()->first()->id,
             'plaza_id' => Plaza::inRandomOrder()->first()->id,
             'estado' => $this->faker->randomElement(['pendiente', 'en revision', 'aprobado', 'rechazado']),
             'fecha_postulacion' => $this->faker->date(),
