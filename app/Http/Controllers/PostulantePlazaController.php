@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CandidatoPlaza;
+use App\Models\PostulantePlaza;
 use Illuminate\Http\Request;
 
-class CandidatoPlazaController extends Controller
+class PostulantePlazaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class CandidatoPlazaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CandidatoPlaza $candidatoPlaza)
+    public function show(PostulantePlaza $postulantePlaza)
     {
         //
     }
@@ -42,7 +42,7 @@ class CandidatoPlazaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CandidatoPlaza $candidatoPlaza)
+    public function edit(PostulantePlaza $postulantePlaza)
     {
         //
     }
@@ -50,7 +50,7 @@ class CandidatoPlazaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CandidatoPlaza $candidatoPlaza)
+    public function update(Request $request, PostulantePlaza $postulantePlaza)
     {
         //
     }
@@ -58,7 +58,7 @@ class CandidatoPlazaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CandidatoPlaza $candidatoPlaza)
+    public function destroy(PostulantePlaza $postulantePlaza)
     {
         //
     }

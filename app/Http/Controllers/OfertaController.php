@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Antecedente;
+use App\Models\Oferta;
 use Illuminate\Http\Request;
 
-class AntecedenteController extends Controller
+class OfertaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class AntecedenteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Antecedente $antecedente)
+    public function show(Oferta $Oferta)
     {
         //
     }
@@ -42,7 +42,7 @@ class AntecedenteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Antecedente $antecedente)
+    public function edit(Oferta $Oferta)
     {
         //
     }
@@ -50,7 +50,7 @@ class AntecedenteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Antecedente $antecedente)
+    public function update(Request $request, Oferta $Oferta)
     {
         //
     }
@@ -58,7 +58,7 @@ class AntecedenteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Antecedente $antecedente)
+    public function destroy(Oferta $Oferta)
     {
         //
     }
