@@ -24,6 +24,7 @@ class PostulanteFactory extends Factory
             'direccion' => $this->faker->address,
             'telefono' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->email,
+            'curriculum_url' => $this->faker->url,
         ];
     }
 }

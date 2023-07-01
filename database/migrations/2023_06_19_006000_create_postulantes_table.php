@@ -20,6 +20,7 @@ class CreatepostulantesTable extends Migration
             $table->string('direccion');
             $table->string('telefono');
             $table->string('email')->unique();
+            $table->string('curriculum_url');
             $table->timestamps();
         });
     }
