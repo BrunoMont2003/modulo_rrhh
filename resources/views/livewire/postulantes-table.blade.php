@@ -1,6 +1,8 @@
 <div class="flex flex-col gap-5 w-full">
-    <div class="flex w-full py-4  dark:border-gray-700 border-b border-gray-200 ">
+    <div class="flex py-4 w-full items-center justify-between  dark:border-gray-700 border-b border-gray-200 ">
         @livewire('common.search-box', ['placeholder' => 'Ingrese nombre del postulante'])
+        <a href="{{ route('postulantes.create') }}"
+            class="px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-blue-500 dark:focus:bg-gray-700">Nuevo</a>
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
