@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Postulantes;
 
 use App\Http\Traits\WithSorting;
 use App\Models\Postulante;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class PostulantesTable extends Component
+class ListTable extends Component
 {
     use WithPagination;
     use WithSorting;
@@ -35,7 +35,7 @@ class PostulantesTable extends Component
 
     public function render()
     {
-        return view('livewire.postulantes-table', [
+        return view('livewire.postulantes.list-table', [
             'postulantes' => Postulante
                 ::where('nombre', 'LIKE', "%{$this->search}%")->orderBy($this->sortBy, $this->sortDirection)
                 ->paginate(10),
