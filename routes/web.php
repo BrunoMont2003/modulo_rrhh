@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\CandidatoController;
-use App\Http\Controllers\ColaboradorController;
+use App\Http\Controllers\PostulanteController;
+use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\NominaController;
@@ -33,8 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('/colaboradores', ColaboradorController::class);
-    Route::resource('/candidatos', CandidatoController::class);
+    Route::resource('/empleados', EmpleadoController::class);
+    Route::resource('/postulantes', PostulanteController::class);
     Route::resource('/plazas', PlazaController::class);
     Route::resource('/puestos', PuestoController::class);
     Route::resource('/equipos', EquipoController::class);
