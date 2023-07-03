@@ -8,22 +8,24 @@
 
     @if ($type == 'textarea')
         <textarea {{ $disabled ? 'disabled' : '' }} {{ $required ? 'required' : '' }}" id="{{ $name }}"
-            name="{{ $name }}" placeholder="{{ $placeholder ?? '' }}" value="{{ old($name) }}"
+            name="{{ $name }}" placeholder="{{ $placeholder ?? '' }}" value="{{ old($name) ?? $value }}"
             class='border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-md 
             shadow-sm bg-transparent'></textarea>
     @elseif ($type == 'select')
         <select {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}" id="{{ $name }}"
-            name="{{ $name }}" value="{{ old($name) }}"
-            class='border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm bg-transparent'>
+            name="{{ $name }}"
+            class='border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm bg-transparent capitalize'>
             <option value="">Seleccione una opción</option>
             @foreach ($options as $option)
-                <option value="{{ $option }}">{{ $option }}</option>
+                <option value="{{ $option }}" {{ (old($name) ?? $value) == $option ? 'selected' : '' }}>
+                    {{ $option }}
+                </option>
             @endforeach
         </select>
     @else
         <input {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}" id="{{ $name }}"
-            value="{{ old($name) }}" name="{{ $name }}" type="{{ $type ?? 'text' }}"
-            value="{{ $value ?? '' }}" placeholder="{{ $placeholder ?? '' }}"
+            value="{{ old($name) ?? $value }}" name="{{ $name }}" type="{{ $type ?? 'text' }}"
+            placeholder="{{ $placeholder ?? '' }}"
             class='border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm bg-transparent'>
     @endif
 

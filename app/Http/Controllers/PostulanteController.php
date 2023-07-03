@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Postulante;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PostulanteController extends Controller
 {
@@ -11,16 +12,33 @@ class PostulanteController extends Controller
      * Display a listing of the resource.
      */
 
-    protected $rules = [
-        'nombre' => 'required',
-        'email' => 'required|email',
-        'dni' => 'required|numeric|digits:8|unique:postulantes,dni',
-        'genero' => 'required',
-        'fecha_nacimiento' => 'required|date|before:2004-01-01|after:1940-01-01',
-        'direccion' => 'required',
-        'telefono' => 'required|numeric|digits:9',
-        'curriculum_url' => 'required|url',
-    ];
+    protected function rules($postulante = null)
+    {
+        return [
+            'nombre' => 'required',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('postulantes')->ignore($postulante),
+            ],
+            'dni' => [
+                'required',
+                'numeric',
+                'digits:8',
+                Rule::unique('postulantes')->ignore($postulante),
+            ],
+            'genero' => 'required',
+            'fecha_nacimiento' => 'required|date|before:2004-01-01|after:1940-01-01',
+            'direccion' => 'required',
+            'telefono' => [
+                'required',
+                'numeric',
+                'digits:9',
+                Rule::unique('postulantes')->ignore($postulante),
+            ],
+            'curriculum_url' => 'required|url',
+        ];
+    }
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -32,6 +50,7 @@ class PostulanteController extends Controller
             'nombre.required' => 'El nombre es obligatorio.',
             'email.required' => 'El email es obligatorio.',
             'email.email' => 'El email debe ser una dirección de correo válida.',
+            'email.unique' => 'El email ya está registrado.',
             'dni.required' => 'El DNI es obligatorio.',
             'dni.numeric' => 'El DNI debe ser numérico.',
             'dni.digits' => 'El DNI debe tener 8 dígitos.',
@@ -45,6 +64,7 @@ class PostulanteController extends Controller
             'telefono.required' => 'El teléfono es obligatorio.',
             'telefono.numeric' => 'El teléfono debe ser numérico.',
             'telefono.digits' => 'El teléfono debe tener 9 dígitos.',
+            'telefono.unique' => 'El teléfono ya está registrado.',
             'curriculum_url.required' => 'El enlace de currículum es obligatorio.',
             'curriculum_url.url' => 'El enlace de currículum debe ser una URL válida.',
         ];
@@ -68,7 +88,7 @@ class PostulanteController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validate($request, $this->rules);
+        $data = $this->validate($request, $this->rules(), $this->messages());
         Postulante::create($data);
         return redirect()->route('postulantes.index');
     }
@@ -86,7 +106,7 @@ class PostulanteController extends Controller
      */
     public function edit(Postulante $postulante)
     {
-        //
+        return view('postulantes.edit', ['title' => 'Editar postulante', 'postulante' => $postulante]);
     }
 
     /**
@@ -94,7 +114,9 @@ class PostulanteController extends Controller
      */
     public function update(Request $request, Postulante $postulante)
     {
-        //
+        $data = $this->validate($request, $this->rules($postulante), $this->messages());
+        $postulante->update($data);
+        return redirect()->route('postulantes.index');
     }
 
     /**
