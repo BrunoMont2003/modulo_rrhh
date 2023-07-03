@@ -1,0 +1,35 @@
+@props(['name', 'label', 'type' => 'text', 'placeholder' => '', 'value' => '', 'required' => false, 'disabled' => false, 'options' => [], 'message' => ''])
+
+<div class="flex flex-col gap-2">
+    <label for="{{ $name }}" class='block font-medium text-sm text-gray-700 dark:text-gray-200'>
+        {{ $label }}
+    </label>
+
+
+    @if ($type == 'textarea')
+        <textarea {{ $disabled ? 'disabled' : '' }} {{ $required ? 'required' : '' }}" id="{{ $name }}"
+            name="{{ $name }}" placeholder="{{ $placeholder ?? '' }}" value="{{ old($name) }}"
+            class='border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-md 
+            shadow-sm bg-transparent'></textarea>
+    @elseif ($type == 'select')
+        <select {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}" id="{{ $name }}"
+            name="{{ $name }}" value="{{ old($name) }}"
+            class='border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm bg-transparent'>
+            <option value="">Seleccione una opción</option>
+            @foreach ($options as $option)
+                <option value="{{ $option }}">{{ $option }}</option>
+            @endforeach
+        </select>
+    @else
+        <input {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}" id="{{ $name }}"
+            value="{{ old($name) }}" name="{{ $name }}" type="{{ $type ?? 'text' }}"
+            value="{{ $value ?? '' }}" placeholder="{{ $placeholder ?? '' }}"
+            class='border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm bg-transparent'>
+    @endif
+
+
+
+    @error($name)
+        <span class="text-red-500 text-xs">{{ $message }}</span>
+    @enderror
+</div>

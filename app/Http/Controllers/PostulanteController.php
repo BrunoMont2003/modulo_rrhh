@@ -11,6 +11,44 @@ class PostulanteController extends Controller
      * Display a listing of the resource.
      */
 
+    protected $rules = [
+        'nombre' => 'required',
+        'email' => 'required|email',
+        'dni' => 'required|numeric|digits:8|unique:postulantes,dni',
+        'genero' => 'required',
+        'fecha_nacimiento' => 'required|date|before:2004-01-01|after:1940-01-01',
+        'direccion' => 'required',
+        'telefono' => 'required|numeric|digits:9',
+        'curriculum_url' => 'required|url',
+    ];
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'email.required' => 'El email es obligatorio.',
+            'email.email' => 'El email debe ser una dirección de correo válida.',
+            'dni.required' => 'El DNI es obligatorio.',
+            'dni.numeric' => 'El DNI debe ser numérico.',
+            'dni.digits' => 'El DNI debe tener 8 dígitos.',
+            'dni.unique' => 'El DNI ya está registrado.',
+            'genero.required' => 'El género es obligatorio.',
+            'fecha_nacimiento.required' => 'El fecha de nacimiento es obligatorio.',
+            'fecha_nacimiento.date' => 'El fecha de nacimiento debe ser una fecha válida.',
+            'fecha_nacimiento.before' => 'La fecha de nacimiento debe ser anterior a 2004-01-01.',
+            'fecha_nacimiento.after' => 'La fecha de nacimiento debe ser posterior a 1940-01-01.',
+            'direccion.required' => 'El dirección es obligatorio.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.numeric' => 'El teléfono debe ser numérico.',
+            'telefono.digits' => 'El teléfono debe tener 9 dígitos.',
+            'curriculum_url.required' => 'El enlace de currículum es obligatorio.',
+            'curriculum_url.url' => 'El enlace de currículum debe ser una URL válida.',
+        ];
+    }
 
     public function index()
     {
@@ -30,16 +68,8 @@ class PostulanteController extends Controller
      */
     public function store(Request $request)
     {
-        $postulante = new Postulante();
-        $postulante->nombre = $request->nombre;
-        $postulante->dni = $request->dni;
-        $postulante->telefono = $request->telefono;
-        $postulante->email = $request->email;
-        $postulante->fecha_nacimiento = $request->fecha_nacimiento;
-        $postulante->direccion = $request->direccion;
-        $postulante->save();
-
-
+        $data = $this->validate($request, $this->rules);
+        Postulante::create($data);
         return redirect()->route('postulantes.index');
     }
 
