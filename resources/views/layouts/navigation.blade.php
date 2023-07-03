@@ -2,18 +2,18 @@
     $navigation = [
         'Dashboard' => 'dashboard',
         'Reclutamiento' => [
-            'Candidatos' => 'candidatos.index',
+            'Postulantes' => 'postulantes.index',
             'Plazas' => 'plazas.index',
             'Puetos' => 'puestos.index',
             'Equipos' => 'equipos.index',
         ],
-        'Colaboradores' => 'colaboradores.index',
+        'Empleados' => 'empleados.index',
         'Nómina' => 'nomina.index',
         'Horarios' => 'horarios.index',
     ];
 @endphp
 
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -21,7 +21,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-100" />
                     </a>
                 </div>
 
@@ -30,12 +30,12 @@
                     @foreach ($navigation as $title => $link)
                         @if (is_array($link))
                             <div
-                                class="{{ request()->routeIs($link) ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out' }}">
+                                class="{{ request()->routeIs($link) ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out' }}">
 
                                 <x-dropdown align="right" width="48">
                                     <x-slot name="trigger">
                                         <button
-                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-200 bg-white dark:bg-gray-900 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                                             <div>{{ $title }}</div>
 
                                             <div class="ml-1">
@@ -72,7 +72,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-200 bg-white dark:bg-gray-900 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ml-1">
@@ -101,6 +101,10 @@
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
+                        <div class="flex items-center justify-center py-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                            {{-- <x-darkmode-toggle /> --}}
+                            @livewire('common.theme-toggle')
+                        </div>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -143,7 +147,7 @@
                 @endif
             @endforeach
         </div>
-        
+
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">

@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* is dark theme */
+
+/* @media (prefers-color-scheme: dark) {
+    .pagination-links p{
+        color: #fff;
+    }
+} */
+
+html.dark .pagination-links p{
+    color: #fff;
+}
