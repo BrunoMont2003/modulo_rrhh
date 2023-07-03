@@ -48,7 +48,6 @@
                 Livewire.emit('theme-load', {
                     theme: 'dark'
                 });
-                console.log('on load the theme is dark')
             } else {
                 document.documentElement.classList.remove('dark')
                 Livewire.emit('theme-load', {
@@ -56,7 +55,6 @@
                 });
                 Livewire.localStorage('theme', 'light');
 
-                console.log('on load the theme is light')
             }
         });
         window.addEventListener('theme-toggle', event => {
