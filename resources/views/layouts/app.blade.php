@@ -53,7 +53,6 @@
                 Livewire.emit('theme-load', {
                     theme: 'light'
                 });
-                Livewire.localStorage('theme', 'light');
 
             }
         });
