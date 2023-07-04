@@ -4,15 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Equipo;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EquipoController extends Controller
 {
+
+
+    protected function rules($equipo = null)
+    {
+        return [
+            'nombre' => [
+                'required',
+                'max:255',
+                Rule::unique('equipos')->ignore($equipo)
+            ],
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'nombre.required' => 'El nombre del equipo es obligatorio',
+            'nombre.max' => 'El nombre del equipo no puede superar los 255 caracteres',
+            'nombre.unique' => 'El nombre del equipo ya existe',
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('equipos.index');
     }
 
     /**
@@ -20,7 +43,7 @@ class EquipoController extends Controller
      */
     public function create()
     {
-        //
+        return view('equipos.create');
     }
 
     /**
@@ -28,7 +51,18 @@ class EquipoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate($this->rules(), $this->messages());
+
+        Equipo::create($data);
+
+        session()->flash(
+            'toast',
+            [
+                'message' => 'Equipo creado correctamente',
+                'type' => 'success',
+            ]
+        );
+        return redirect()->route('equipos.index');
     }
 
     /**
@@ -44,7 +78,7 @@ class EquipoController extends Controller
      */
     public function edit(Equipo $equipo)
     {
-        //
+        return view('equipos.edit', compact('equipo'));
     }
 
     /**
@@ -52,7 +86,18 @@ class EquipoController extends Controller
      */
     public function update(Request $request, Equipo $equipo)
     {
-        //
+        $data = $request->validate($this->rules($equipo), $this->messages());
+
+        $equipo->update($data);
+
+        session()->flash(
+            'toast',
+            [
+                'message' => 'Equipo actualizado correctamente',
+                'type' => 'success',
+            ]
+        );
+        return redirect()->route('equipos.index');
     }
 
     /**
@@ -60,6 +105,15 @@ class EquipoController extends Controller
      */
     public function destroy(Equipo $equipo)
     {
-        //
+        $equipo->delete();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => 'Equipo eliminado correctamente',
+                'type' => 'success',
+            ]
+        );
+        return redirect()->route('equipos.index');
     }
 }
