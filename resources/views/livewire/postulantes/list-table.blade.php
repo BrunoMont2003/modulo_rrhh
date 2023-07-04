@@ -39,7 +39,7 @@
                         </div>
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        <span class="sr-only">Edit</span>
+                        <span class="sr-only">Actions</span>
                     </th>
                 </tr>
             </thead>
@@ -65,9 +65,17 @@
                                 @livewire('icons.cv', [], key($postulante->id))
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-right">
+                        <td class="px-6 py-4 text-right inline-flex gap-2 items-center justify-center">
                             <a href="{{ route('postulantes.edit', $postulante->id) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                class="font-medium text-blue-600 dark:text-blue-500">
+                                @livewire('icons.edit', [], key('edit-icon-' . $postulante->id))
+                            </a>
+                            {{-- open modal to delete --}}
+                            <button wire:click="confirmPostulanteDeletion({{ $postulante }})"
+                                class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                @livewire('icons.drop', [], key('drop-icon-' . $postulante->id))
+                            </button>
+
                         </td>
                     </tr>
                 @endforeach
@@ -83,5 +91,20 @@
             <x-spinner></x-spinner>
         </div>
     </div>
+
+    @if ($confirmingPostulanteDeletion)
+        <x-confirm-deletion-modal action="{{ route('postulantes.destroy', $selectedPostulante) }}"
+            title="Estas seguro de querer eliminar este postulante?" confirmButtonText="Sí, eliminar"
+            onClose="cerrarModal"
+            cancelButtonText="No, cancelar" wire:click="deletePostulante">
+            <x-slot name="description">
+                <p class="mb-3">
+
+                    <span class="font-semibold text-gray-500 dark:text-gray-400">Nombre:</span>
+                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulante->nombre }}</span>
+                </p>
+            </x-slot>
+        </x-confirm-deletion-modal>
+    @endif
 
 </div>

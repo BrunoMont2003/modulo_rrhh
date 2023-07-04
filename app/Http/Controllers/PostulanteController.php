@@ -124,6 +124,7 @@ class PostulanteController extends Controller
      */
     public function destroy(Postulante $postulante)
     {
-        //
+        $postulante->delete();
+        return redirect()->route('postulantes.index');
     }
 }

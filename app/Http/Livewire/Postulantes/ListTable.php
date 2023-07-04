@@ -12,6 +12,8 @@ class ListTable extends Component
     use WithPagination;
     use WithSorting;
     public $search = '';
+    public $confirmingPostulanteDeletion = false;
+    public $selectedPostulante = null;
     protected $listeners = ['sort', 'search'];
     protected $queryString = [
 
@@ -31,6 +33,20 @@ class ListTable extends Component
     {
         $this->search = $search;
         $this->resetPage();
+    }
+
+    public function confirmPostulanteDeletion(Postulante $postulante)
+    {
+        $this->confirmingPostulanteDeletion = true;
+        $this->selectedPostulante = $postulante;
+
+        $this->emit('open-custom-modal', 'confirm-postulante-deletion');
+    }
+
+    public function cerrarModal()
+    {
+        $this->confirmingPostulanteDeletion = false;
+        $this->selectedPostulante = null;
     }
 
     public function render()
