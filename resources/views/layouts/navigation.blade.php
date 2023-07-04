@@ -4,7 +4,7 @@
         'Reclutamiento' => [
             'Postulantes' => 'postulantes.index',
             'Plazas' => 'plazas.index',
-            'Puetos' => 'puestos.index',
+            'Puestos' => 'puestos.index',
             'Equipos' => 'equipos.index',
         ],
         'Empleados' => 'empleados.index',

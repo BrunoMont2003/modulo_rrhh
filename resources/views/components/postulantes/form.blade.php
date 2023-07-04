@@ -1,5 +1,19 @@
 @props(['postulante' => null])
 
+@php
+    $options = [
+        (object) [
+            'value' => 'masculino',
+            'label' => 'Masculino',
+        ],
+        (object) [
+            'value' => 'femenino',
+            'label' => 'Femenino',
+        ],
+    ];
+@endphp
+
+
 <form method="POST" action="{{ $postulante ? route('postulantes.update', $postulante) : route('postulantes.store') }}"
     class="grid md:grid-cols-2 gap-5">
     @csrf
@@ -18,7 +32,7 @@
         name="fecha_nacimiento" type="date" required />
 
     <x-input-group value="{{ $postulante ? $postulante->genero : '' }}" label="Género" name="genero" type="select"
-        required :options="['masculino', 'femenino']" />
+        required :options="$options" />
 
     <x-input-group value="{{ $postulante ? $postulante->direccion : '' }}" label="Dirección" name="direccion"
         type="text" required placeholder="Ingrese dirección del postulante" />

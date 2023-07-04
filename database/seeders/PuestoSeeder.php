@@ -34,6 +34,16 @@ class PuestoSeeder extends Seeder
             'nombre' => 'Secretaria',
             'equipo_id' => 1,
         ]);
+
+        $tabla->insert([
+            'nombre' => 'Psicólogo',
+            'equipo_id' => 1,
+        ]);
+
+        $tabla->insert([
+            'nombre' => 'Auxiliar',
+            'equipo_id' => 1,
+        ]);
         $tabla->insert([
             'nombre' => 'Coordinador de Proyectos',
             'equipo_id' => 2,
