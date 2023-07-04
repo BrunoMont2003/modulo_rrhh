@@ -1,5 +1,5 @@
 <div
-    class="fixed top-0 right-0 px-24 py-10 overflow-x-hidden"
+    class="fixed top-0 right-0 px-5 md:px-12 lg:px-24 py-10 overflow-x-hidden"
 >
     @foreach ($toasts as $toast)
         <div x-data="{ visible: true }" x-init="setTimeout(() => visible = false, 10000)" x-show="visible"
