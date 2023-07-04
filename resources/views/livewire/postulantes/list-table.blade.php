@@ -4,7 +4,7 @@
         <a href="{{ route('postulantes.create') }}"
             class="px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-blue-500 dark:focus:bg-gray-700">Nuevo</a>
     </div>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg dark:bg-gray-700 bg-gray-300">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -83,7 +83,7 @@
             </tbody>
         </table>
         <div
-            class="pagination-links px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            class="pagination-links px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-full">
             {{ $postulantes->links() }}
         </div>
         <div wire:loading.flex
@@ -95,8 +95,7 @@
     @if ($confirmingPostulanteDeletion)
         <x-confirm-deletion-modal action="{{ route('postulantes.destroy', $selectedPostulante) }}"
             title="Estas seguro de querer eliminar este postulante?" confirmButtonText="Sí, eliminar"
-            onClose="cerrarModal"
-            cancelButtonText="No, cancelar" wire:click="deletePostulante">
+            onClose="cerrarModal" cancelButtonText="No, cancelar" wire:click="deletePostulante">
             <x-slot name="description">
                 <p class="mb-3">
 
