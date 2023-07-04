@@ -35,6 +35,7 @@
         <main>
             {{ $slot }}
         </main>
+        @livewire('common.toasts')
     </div>
 
     {{-- Scripts --}}

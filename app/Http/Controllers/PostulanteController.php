@@ -90,6 +90,13 @@ class PostulanteController extends Controller
     {
         $data = $this->validate($request, $this->rules(), $this->messages());
         Postulante::create($data);
+        session()->flash(
+            'toast',
+            [
+                'message' => 'Postulante creado correctamente',
+                'type' => 'success',
+            ]
+        );
         return redirect()->route('postulantes.index');
     }
 
@@ -116,6 +123,13 @@ class PostulanteController extends Controller
     {
         $data = $this->validate($request, $this->rules($postulante), $this->messages());
         $postulante->update($data);
+        session()->flash(
+            'toast',
+            [
+                'message' => 'Postulante actualizado correctamente',
+                'type' => 'success',
+            ]
+        );
         return redirect()->route('postulantes.index');
     }
 
@@ -125,6 +139,15 @@ class PostulanteController extends Controller
     public function destroy(Postulante $postulante)
     {
         $postulante->delete();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => 'Postulante eliminado correctamente',
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('postulantes.index');
     }
 }
