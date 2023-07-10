@@ -3,13 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\postulante;
-use App\Models\postulantePlaza;
+use App\Models\postulacion;
 use App\Models\Plaza;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PostulantePlazaFactory extends Factory
+class PostulacionFactory extends Factory
 {
-    protected $model = postulantePlaza::class;
+    protected $model = postulacion::class;
 
     /**
      * Define the model's default state.

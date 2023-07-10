@@ -23,6 +23,6 @@ class Plaza extends Model
 
     public function postulantes()
     {
-        return $this->hasMany(postulantePlaza::class, 'plaza_id');
+        return $this->hasMany(postulacion::class, 'plaza_id');
     }
 }

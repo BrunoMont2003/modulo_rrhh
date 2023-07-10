@@ -6,6 +6,7 @@ use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\NominaController;
 use App\Http\Controllers\PlazaController;
+use App\Http\Controllers\PostulacionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/empleados', EmpleadoController::class);
+    Route::resource('/postulaciones', PostulacionController::class);
     Route::resource('/postulantes', PostulanteController::class);
     Route::resource('/plazas', PlazaController::class);
     Route::resource('/puestos', PuestoController::class);

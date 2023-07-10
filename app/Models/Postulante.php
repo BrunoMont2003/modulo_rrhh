@@ -24,6 +24,6 @@ class Postulante extends Model
 
     public function postulaciones(): HasMany
     {
-        return $this->hasMany(PostulantePlaza::class, 'postulante_id');
+        return $this->hasMany(Postulacion::class, 'postulante_id');
     }
 }

@@ -23,9 +23,9 @@ class Oferta extends Model
         'fecha_fin' => 'date',
     ];
 
-    public function postulantePlaza(): BelongsTo
+    public function postulacion(): BelongsTo
     {
-        return $this->belongsTo(PostulantePlaza::class, 'postulante_id')
+        return $this->belongsTo(Postulacion::class, 'postulante_id')
             ->whereInEager('plaza_id', $this->plaza_id);
     }
 }

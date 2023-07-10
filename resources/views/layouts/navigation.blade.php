@@ -6,6 +6,7 @@
             'Plazas' => 'plazas.index',
             'Puestos' => 'puestos.index',
             'Equipos' => 'equipos.index',
+            'Postulaciones' => 'postulaciones.index',
         ],
         'Empleados' => 'empleados.index',
         'Nómina' => 'nomina.index',

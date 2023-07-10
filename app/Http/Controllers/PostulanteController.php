@@ -12,7 +12,7 @@ class PostulanteController extends Controller
      * Display a listing of the resource.
      */
 
-    protected function rules($postulante = null)
+    public static function rules($postulante = null)
     {
         return [
             'nombre' => 'required',
@@ -44,7 +44,7 @@ class PostulanteController extends Controller
      *
      * @return array<string, string>
      */
-    public function messages(): array
+    public static function messages(): array
     {
         return [
             'nombre.required' => 'El nombre es obligatorio.',
