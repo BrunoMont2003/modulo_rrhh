@@ -22,7 +22,6 @@ class Toasts extends Component
 
         $this->toasts[] = $toast;
 
-        $this->dispatchBrowserEvent('toastCreated', $toast);
     }
 
     public function mount()
