@@ -65,10 +65,6 @@
                 document.documentElement.classList.remove('dark')
             }
         });
-        window.addEventListener('open-custom-modal', event => {
-            console.log(event.detail);
-            Livewire.emit('open-modal', event.detail);
-        });
     </script>
 </body>
 
