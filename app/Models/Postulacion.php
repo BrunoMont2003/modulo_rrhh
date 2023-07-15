@@ -9,9 +9,6 @@ class Postulacion extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = ['postulante_id', 'plaza_id'];
-    public $incrementing = false;
-    protected $keyType = 'string';
     protected $table = 'postulaciones';
 
     protected $fillable = [
@@ -28,7 +25,7 @@ class Postulacion extends Model
 
     public function postulante()
     {
-        return $this->belongsTo(postulante::class, 'postulante_id');
+        return $this->belongsTo(Postulante::class, 'postulante_id');
     }
 
     public function plaza()
