@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('postulaciones', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('postulante_id');
             $table->unsignedBigInteger('plaza_id');
             $table->enum('estado', ['pendiente', 'en revision', 'aprobado', 'rechazado']);
             $table->date('fecha_postulacion');
-            $table->primary(['postulante_id', 'plaza_id']);
-            $table->foreign('postulante_id')->references('id')->on('postulantes')->onDelete('cascade');
             $table->foreign('plaza_id')->references('id')->on('plazas')->onDelete('cascade');
             $table->timestamps();
         });
