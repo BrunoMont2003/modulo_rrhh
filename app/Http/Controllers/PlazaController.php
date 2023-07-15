@@ -66,6 +66,7 @@ class PlazaController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('America/Lima');
         $data = $this->validate($request, $this->rules(), $this->messages());
 
 
