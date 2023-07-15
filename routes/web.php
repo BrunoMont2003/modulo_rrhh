@@ -35,7 +35,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/empleados', EmpleadoController::class);
-    Route::resource('/postulaciones', PostulacionController::class);
+    Route::controller(PostulacionController::class)->group(
+        function () {
+            Route::get('/postulaciones', 'index')->name('postulaciones.index');
+            Route::get('/postulaciones/create', 'create')->name('postulaciones.create');
+            Route::post('/postulaciones', 'store')->name('postulaciones.store');
+            Route::delete('/postulaciones/{postulante}/delete', 'destroyByPostulante')->name('postulaciones.destroyByPostulante');
+            Route::delete('/postulaciones/{postulacion}', 'destroy')->name('postulaciones.destroy');
+        }
+    );
+
+
     Route::resource('/postulantes', PostulanteController::class);
     Route::resource('/plazas', PlazaController::class);
     Route::resource('/puestos', PuestoController::class);
