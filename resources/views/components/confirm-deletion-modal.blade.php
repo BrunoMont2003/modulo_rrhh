@@ -1,6 +1,6 @@
 @props(['action', 'modalName' => 'confirm-deletion', 'title' => 'Estas seguro de querer eliminar este registro?', 'confirmButtonText' => 'Sí, eliminar', 'cancelButtonText' => 'No, cancelar', 'onClose' => ''])
 
-<x-modal :name="'confirm-postulante-deletion'" :show="true">
+<x-modal name="{{ $modalName }}" :show="true">
     <form method="post" action="{{ $action }}">
         @csrf
         @method('delete')
