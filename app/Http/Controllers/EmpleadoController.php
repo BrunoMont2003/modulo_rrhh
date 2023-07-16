@@ -79,7 +79,7 @@ class EmpleadoController extends Controller
     public function create()
     {
         return view('empleados.create', [
-            'puestos' => Puesto::orderBy('nombre')->get(),
+            'puestos' => Puesto::obtenerTodos(),
         ]);
     }
 
@@ -93,11 +93,11 @@ class EmpleadoController extends Controller
         // if the equipo is docentes, then the esDocente field is true
         $data['esDocente'] = $data['puesto_id'] == 4;
 
-        Empleado::create($data);
+        $newEmpleado = Empleado::crearEmpleado($data);
         session()->flash(
             'toast',
             [
-                'message' => 'Empleado creado correctamente',
+                'message' => "Empleado {$newEmpleado->nombre} creado correctamente",
                 'type' => 'success',
             ]
         );
@@ -119,7 +119,7 @@ class EmpleadoController extends Controller
     {
         return view('empleados.edit', [
             'empleado' => $empleado,
-            'puestos' => Puesto::orderBy('nombre')->get(),
+            'puestos' => Puesto::obtenerTodos(),
         ]);
     }
 
@@ -133,11 +133,11 @@ class EmpleadoController extends Controller
         // if the equipo is docentes, then the esDocente field is true
         $data['esDocente'] = $data['puesto_id'] == 4;
 
-        $empleado->update($data);
+        $updatedEmpleado = Empleado::actualizarEmpleado($empleado, $data);
         session()->flash(
             'toast',
             [
-                'message' => 'Empleado actualizado correctamente',
+                'message' => "Empleado {$updatedEmpleado->nombre} actualizado correctamente",
                 'type' => 'success',
             ]
         );
@@ -149,11 +149,11 @@ class EmpleadoController extends Controller
      */
     public function destroy(Empleado $empleado)
     {
-        $empleado->delete();
+        $deletedEmpleado = Empleado::eliminarEmpleado($empleado);
         session()->flash(
             'toast',
             [
-                'message' => 'Empleado eliminado correctamente',
+                'message' => "Empleado {$deletedEmpleado->nombre} eliminado correctamente",
                 'type' => 'success',
             ]
         );

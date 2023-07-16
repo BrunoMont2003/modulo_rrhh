@@ -44,8 +44,45 @@ class Empleado extends Model
         return $this->hasMany(Nomina::class, 'empleado_id');
     }
 
-    public function horarios() : HasMany
+    public function horarios(): HasMany
     {
         return $this->hasMany(Horario::class, 'empleado_id');
+    }
+
+    // crud methods
+    public static function listarEmpleados(
+        $search = '',
+        $sortBy = 'nombre',
+        $sortDirection = 'asc',
+        $paginate = 10
+    ) {
+        return Empleado::select('empleados.*', 'puestos.nombre as puesto', 'equipos.nombre as equipo')
+            ->where('empleados.nombre', 'LIKE', "%{$search}%")
+            ->orderBy($sortBy, $sortDirection)
+            ->join('puestos', 'puestos.id', '=', 'empleados.puesto_id')
+            ->join('equipos', 'equipos.id', '=', 'puestos.equipo_id')
+            ->paginate($paginate);
+    }
+    public static function obtenerTodos()
+    {
+        return Empleado::orderBy('nombre', 'asc')->get();
+    }
+
+    public static function crearEmpleado($data)
+    {
+        $empleado = Empleado::create($data);
+        return $empleado;
+    }
+
+    public static function actualizarEmpleado($empleado, $data)
+    {
+        $empleado->update($data);
+        return $empleado;
+    }
+
+    public static function eliminarEmpleado($empleado)
+    {
+        $empleado->delete();
+        return $empleado;
     }
 }

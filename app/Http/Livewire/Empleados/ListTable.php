@@ -52,12 +52,11 @@ class ListTable extends Component
     public function render()
     {
         return view('livewire.empleados.list-table', [
-            'empleados' => Empleado
-                ::select('empleados.*', 'puestos.nombre as puesto', 'equipos.nombre as equipo')
-                ->where('empleados.nombre', 'LIKE', "%{$this->search}%")->orderBy($this->sortBy, $this->sortDirection)
-                ->join('puestos', 'puestos.id', '=', 'empleados.puesto_id')
-                ->join('equipos', 'equipos.id', '=', 'puestos.equipo_id')
-                ->paginate(10),
+            'empleados' => Empleado::listarEmpleados(
+                $this->search,
+                $this->sortBy,
+                $this->sortDirection,
+            ),
         ]);
     }
 }
