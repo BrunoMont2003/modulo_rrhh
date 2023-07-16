@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
 class PlazaController extends Controller
 {
 
-    protected function rules($plaza = null)
+    protected function rules()
     {
         return [
             'puesto_id' => 'required|exists:puestos,id',
@@ -20,6 +20,18 @@ class PlazaController extends Controller
                 'date',
                 'before_or_equal:fecha_fin',
                 'after_or_equal:today'
+            ],
+            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+        ];
+    }
+    protected function rulesOnUpdate()
+    {
+        return [
+            'puesto_id' => 'required|exists:puestos,id',
+            'fecha_inicio' => [
+                'required',
+                'date',
+                'before_or_equal:fecha_fin',
             ],
             'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
         ];
@@ -57,7 +69,7 @@ class PlazaController extends Controller
     public function create()
     {
         return view('plazas.create', [
-            'puestos' => Puesto::orderBy('nombre')->get(),
+            'puestos' => Puesto::obtenerTodos(),
         ]);
     }
 
@@ -69,14 +81,7 @@ class PlazaController extends Controller
         date_default_timezone_set('America/Lima');
         $data = $this->validate($request, $this->rules(), $this->messages());
 
-
-        // verificar que no exista una plaza con el mismo puesto y en el plazo de tiempo indicado
-        $plaza = Plaza::where('puesto_id', $data['puesto_id'])
-            ->where('fecha_inicio', '<=', $data['fecha_inicio'])
-            ->where('fecha_fin', '>=', $data['fecha_inicio'])
-            ->first();
-
-        if ($plaza) {
+        if (Plaza::existeUnaPlazaConElMismoPuestoYPlazo($data)) {
             session()->flash(
                 'toast',
                 [
@@ -84,11 +89,10 @@ class PlazaController extends Controller
                     'message' => 'Ya existe una plaza con el mismo puesto y en el plazo de tiempo indicado.'
                 ]
             );
-
             return redirect()->route('plazas.create')->withInput();
         }
 
-        Plaza::create($data);
+        Plaza::crearPlaza($data);
 
         session()->flash(
             'toast',
@@ -125,17 +129,17 @@ class PlazaController extends Controller
      */
     public function update(Request $request, Plaza $plaza)
     {
-        $data = $this->validate($request, $this->rules($plaza), $this->messages());
+        date_default_timezone_set('America/Lima');
+
+        $data = $this->validate($request, $this->rulesOnUpdate(), $this->messages());
 
 
         // verificar que no exista una plaza con el mismo puesto y en el plazo de tiempo indicado (excepto la plaza actual)
-        $p = Plaza::where('puesto_id', $data['puesto_id'])
-            ->where('fecha_inicio', '<=', $data['fecha_inicio'])
-            ->where('fecha_fin', '>=', $data['fecha_inicio'])
-            ->where('id', '!=', $plaza->id)
-            ->first();
 
-        if ($p) {
+        if (Plaza::existeUnaPlazaConElMismoPuestoYPlazo(
+            $data,
+            $plaza->id
+        )) {
             session()->flash(
                 'toast',
                 [
@@ -147,7 +151,7 @@ class PlazaController extends Controller
             return redirect()->route('plazas.edit', $plaza)->withInput();
         }
 
-        $plaza->update($data);
+        Plaza::actualizarPlaza($plaza, $data);
 
         session()->flash(
             'toast',
@@ -165,7 +169,7 @@ class PlazaController extends Controller
      */
     public function destroy(Plaza $plaza)
     {
-        $plaza->delete();
+        Plaza::eliminarPlaza($plaza);
 
         session()->flash(
             'toast',

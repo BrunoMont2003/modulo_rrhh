@@ -25,4 +25,58 @@ class Plaza extends Model
     {
         return $this->hasMany(Postulacion::class, 'plaza_id');
     }
+
+    // crud methods
+    public static function listarPlazas(
+        $search = '',
+        $sortBy = 'puestos.nombre',
+        $sortDirection = 'asc',
+        $paginate = 10
+    ) {
+        return Plaza::select('plazas.*', 'puestos.nombre as puesto')
+            ->where('puestos.nombre', 'LIKE', "%{$search}%")
+            ->join('puestos', 'plazas.puesto_id', '=', 'puestos.id')
+            ->orderBy($sortBy, $sortDirection)
+            ->paginate($paginate);
+    }
+
+    public function obtenerPlazasActivas()
+    {
+        return Plaza::where('fecha_inicio', '<=', date('Y-m-d'))
+            ->where('fecha_fin', '>=', date('Y-m-d'))
+            ->get();
+    }
+
+    public static function crearPlaza($data)
+    {
+        $plaza = Plaza::create($data);
+        return $plaza;
+    }
+
+    public static function actualizarPlaza($plaza, $data)
+    {
+        $plaza->update($data);
+        return $plaza;
+    }
+
+    public static function eliminarPlaza($plaza)
+    {
+        $plaza->delete();
+        return $plaza;
+    }
+
+    public static function existeUnaPlazaConElMismoPuestoYPlazo($data, $plaza_id = null)
+    {
+        if ($plaza_id) {
+            return Plaza::where('puesto_id', $data['puesto_id'])
+                ->where('fecha_inicio', '<=', $data['fecha_inicio'])
+                ->where('fecha_fin', '>=', $data['fecha_inicio'])
+                ->where('id', '!=', $plaza_id)
+                ->exists();
+        }
+        return Plaza::where('puesto_id', $data['puesto_id'])
+            ->where('fecha_inicio', '<=', $data['fecha_inicio'])
+            ->where('fecha_fin', '>=', $data['fecha_inicio'])
+            ->exists();
+    }
 }

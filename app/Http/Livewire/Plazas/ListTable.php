@@ -52,11 +52,7 @@ class ListTable extends Component
     public function render()
     {
         return view('livewire.plazas.list-table', [
-            'plazas' => Plaza::select('plazas.*', 'puestos.nombre as puesto')
-                ->where('puestos.nombre', 'LIKE', "%{$this->search}%")
-                ->join('puestos', 'plazas.puesto_id', '=', 'puestos.id')
-                ->orderBy($this->sortBy, $this->sortDirection)
-                ->paginate(10),
+            'plazas' => Plaza::listarPlazas($this->search, $this->sortBy, $this->sortDirection)
         ]);
     }
 }
