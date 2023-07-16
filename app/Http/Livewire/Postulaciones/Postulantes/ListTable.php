@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\Postulaciones;
+namespace App\Http\Livewire\Postulaciones\Postulantes;
 
 use App\Http\Traits\WithSorting;
 use App\Models\Postulacion;
+use App\Models\Postulante;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,7 +13,9 @@ class ListTable extends Component
     use WithPagination;
     use WithSorting;
     public $search = '';
+    public $confirmingPostulacionesDeletion = false;
     public $confirmingPostulacionDeletion = false;
+    public $selectedPostulante = null;
     public $selectedPostulacion = null;
     public $expandedRows = [];
 
@@ -46,6 +49,15 @@ class ListTable extends Component
             $this->expandedRows[$id] = true;
         }
     }
+
+    public function confirmPostulacionesDeletion(Postulante $postulante)
+    {
+        $this->confirmingPostulacionesDeletion = true;
+        $this->selectedPostulante = $postulante;
+
+        $this->emit('open-custom-modal', 'confirm-postulaciones-deletion');
+    }
+
     public function confirmPostulacionDeletion(Postulacion $postulacion)
     {
         $this->selectedPostulacion = $postulacion;
@@ -53,26 +65,28 @@ class ListTable extends Component
     }
     public function cerrarModal()
     {
-        $this->selectedPostulacion = null;
+        $this->confirmingPostulacionesDeletion = false;
+        $this->selectedPostulante = null;
         $this->confirmingPostulacionDeletion = false;
+        $this->selectedPostulacion = null;
     }
 
 
     public function render()
     {
-        $postulaciones = Postulacion::select('postulaciones.*', 'postulantes.nombre as nombre_postulante', 'puestos.nombre as puesto')
-            ->join('postulantes', 'postulaciones.postulante_id', '=', 'postulantes.id')
-            ->join('plazas', 'postulaciones.plaza_id', '=', 'plazas.id')
-            ->join('puestos', 'plazas.puesto_id', '=', 'puestos.id')
-            ->where('postulantes.nombre', 'LIKE', "%{$this->search}%")
-            ->orWhere('puestos.nombre', 'LIKE', "%{$this->search}%")
-            ->orderBy($this->sortBy, $this->sortDirection)
+        $postulantes = Postulante
+            ::has('postulaciones')
+            ->where('nombre', 'LIKE', "%{$this->search}%")->orderBy($this->sortBy, $this->sortDirection)
+            ->with(['postulaciones' => function ($query) {
+                $query->orderBy('fecha_postulacion', 'desc');
+            }])
             ->paginate(10);
         return view(
-            'livewire.postulaciones.list-table',
+            'livewire.postulaciones.postulantes.list-table',
             [
-                'postulaciones' => $postulaciones,
+                'postulantes' => $postulantes,
             ]
+
         );
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Livewire\Postulaciones;
+namespace App\Http\Livewire\Postulaciones\Plazas;
 
 use App\Http\Traits\WithSorting;
+use App\Models\Plaza;
 use App\Models\Postulacion;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,9 +13,10 @@ class ListTable extends Component
     use WithPagination;
     use WithSorting;
     public $search = '';
+    public $confirmingPostulacionesDeletion = false;
     public $confirmingPostulacionDeletion = false;
+    public $selectedPlaza = null;
     public $selectedPostulacion = null;
-    public $expandedRows = [];
 
     protected $listeners = ['sort', 'search'];
     protected $queryString = [
@@ -38,14 +40,15 @@ class ListTable extends Component
         $this->resetPage();
     }
 
-    public function toggleExpanded($id)
+
+    public function confirmPostulacionesDeletion(Plaza $plaza)
     {
-        if (isset($this->expandedRows[$id])) {
-            unset($this->expandedRows[$id]);
-        } else {
-            $this->expandedRows[$id] = true;
-        }
+        $this->confirmingPostulacionesDeletion = true;
+        $this->selectedPlaza = $plaza;
+
+        $this->emit('open-custom-modal', 'confirm-postulaciones-deletion');
     }
+
     public function confirmPostulacionDeletion(Postulacion $postulacion)
     {
         $this->selectedPostulacion = $postulacion;
@@ -53,26 +56,31 @@ class ListTable extends Component
     }
     public function cerrarModal()
     {
-        $this->selectedPostulacion = null;
+        $this->confirmingPostulacionesDeletion = false;
+        $this->selectedPlaza = null;
         $this->confirmingPostulacionDeletion = false;
+        $this->selectedPostulacion = null;
     }
 
 
     public function render()
     {
-        $postulaciones = Postulacion::select('postulaciones.*', 'postulantes.nombre as nombre_postulante', 'puestos.nombre as puesto')
-            ->join('postulantes', 'postulaciones.postulante_id', '=', 'postulantes.id')
-            ->join('plazas', 'postulaciones.plaza_id', '=', 'plazas.id')
+        $plazas = Plaza
+            ::select('plazas.*', 'puestos.nombre as puesto')
+            ->has('postulaciones')
+            ->with(['postulaciones' => function ($query) {
+                $query->orderBy('fecha_postulacion', 'desc');
+            }])
             ->join('puestos', 'plazas.puesto_id', '=', 'puestos.id')
-            ->where('postulantes.nombre', 'LIKE', "%{$this->search}%")
-            ->orWhere('puestos.nombre', 'LIKE', "%{$this->search}%")
+            ->where('puestos.nombre', 'LIKE', "%{$this->search}%")
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(10);
         return view(
-            'livewire.postulaciones.list-table',
+            'livewire.postulaciones.plazas.list-table',
             [
-                'postulaciones' => $postulaciones,
+                'plazas' => $plazas,
             ]
+
         );
     }
 }

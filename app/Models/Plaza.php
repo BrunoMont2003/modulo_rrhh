@@ -21,8 +21,8 @@ class Plaza extends Model
         return $this->belongsTo(Puesto::class, 'puesto_id');
     }
 
-    public function postulantes()
+    public function postulaciones()
     {
-        return $this->hasMany(postulacion::class, 'plaza_id');
+        return $this->hasMany(Postulacion::class, 'plaza_id');
     }
 }

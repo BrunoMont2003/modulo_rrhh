@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostulacionFactory extends Factory
 {
-    protected $model = postulacion::class;
+    protected $model = Postulacion::class;
 
     /**
      * Define the model's default state.

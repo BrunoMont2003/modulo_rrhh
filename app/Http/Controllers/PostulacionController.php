@@ -32,9 +32,11 @@ class PostulacionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return view('postulaciones.index');
+    public function index(
+        Request $request
+    ) {
+        $mode =  $request->input('mode');
+        return view('postulaciones.index', compact('mode'));
     }
 
     /**
@@ -149,6 +151,24 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('postulaciones.index');
+        return redirect()->route('postulaciones.index', ['mode' => 'postulante']);
+    }
+    public function destroyByPlaza(Plaza $plaza)
+    {
+        $postulaciones = Postulacion::where('plaza_id', $plaza->id)
+            ->get();
+
+        foreach ($postulaciones as $postulacion) {
+            Postulacion::where('plaza_id', $postulacion->plaza_id)
+                ->where('postulante_id', $postulacion->postulante_id)
+                ->delete();
+        }
+
+        session()->flash('toast', [
+            'message' => 'Postulaciones eliminadas correctamente',
+            'type' => 'success',
+        ]);
+
+        return redirect()->route('postulaciones.index', ['mode' => 'plaza']);
     }
 }

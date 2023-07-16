@@ -39,8 +39,10 @@ Route::middleware('auth')->group(function () {
         function () {
             Route::get('/postulaciones', 'index')->name('postulaciones.index');
             Route::get('/postulaciones/create', 'create')->name('postulaciones.create');
+            Route::get('/postulaciones/{postulacion}/edit', 'edit')->name('postulaciones.edit');
             Route::post('/postulaciones', 'store')->name('postulaciones.store');
             Route::delete('/postulaciones/{postulante}/delete', 'destroyByPostulante')->name('postulaciones.destroyByPostulante');
+            Route::delete('/postulaciones/porplaza/{plaza}/delete', 'destroyByPlaza')->name('postulaciones.destroyByPlaza');
             Route::delete('/postulaciones/{postulacion}', 'destroy')->name('postulaciones.destroy');
         }
     );
