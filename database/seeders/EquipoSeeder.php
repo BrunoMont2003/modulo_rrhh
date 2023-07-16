@@ -31,5 +31,8 @@ class EquipoSeeder extends Seeder
         $tabla->insert([
             'nombre' => 'Finanzas',
         ]);
+        $tabla->insert([
+            'nombre' => 'Psicología',
+        ]);
     }
 }

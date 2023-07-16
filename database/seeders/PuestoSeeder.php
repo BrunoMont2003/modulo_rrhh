@@ -36,11 +36,6 @@ class PuestoSeeder extends Seeder
         ]);
 
         $tabla->insert([
-            'nombre' => 'Psicólogo',
-            'equipo_id' => 1,
-        ]);
-
-        $tabla->insert([
             'nombre' => 'Auxiliar',
             'equipo_id' => 1,
         ]);
@@ -111,6 +106,10 @@ class PuestoSeeder extends Seeder
         $tabla->insert([
             'nombre' => 'Contador',
             'equipo_id' => 6,
+        ]);
+        $tabla->insert([
+            'nombre' => 'Psicólogo',
+            'equipo_id' => 7,
         ]);
     }
 }
