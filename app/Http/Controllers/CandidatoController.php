@@ -89,11 +89,11 @@ class CandidatoController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate($request, $this->rules(), $this->messages());
-        Candidato::create($data);
+        $newCandidato = Candidato::crearCandidato($data);
         session()->flash(
             'toast',
             [
-                'message' => 'Candidato creado correctamente',
+                'message' => "Candidato {$newCandidato->nombre} creado correctamente",
                 'type' => 'success',
             ]
         );
@@ -122,11 +122,11 @@ class CandidatoController extends Controller
     public function update(Request $request, Candidato $candidato)
     {
         $data = $this->validate($request, $this->rules($candidato), $this->messages());
-        $candidato->update($data);
+        $updatedCandidato = Candidato::actualizarCandidato($candidato, $data);
         session()->flash(
             'toast',
             [
-                'message' => 'Candidato actualizado correctamente',
+                'message' => "Candidato {$updatedCandidato->nombre} actualizado correctamente",
                 'type' => 'success',
             ]
         );
@@ -138,12 +138,12 @@ class CandidatoController extends Controller
      */
     public function destroy(Candidato $candidato)
     {
-        $candidato->delete();
+        $deletedCandidato = Candidato::eliminarCandidato($candidato);
 
         session()->flash(
             'toast',
             [
-                'message' => 'Candidato eliminado correctamente',
+                'message' => "Candidato {$deletedCandidato->nombre} eliminado correctamente",
                 'type' => 'success',
             ]
         );
