@@ -74,13 +74,11 @@ class ListTable extends Component
 
     public function render()
     {
-        $candidatos = Candidato
-            ::has('postulaciones')
-            ->where('nombre', 'LIKE', "%{$this->search}%")->orderBy($this->sortBy, $this->sortDirection)
-            ->with(['postulaciones' => function ($query) {
-                $query->orderBy('fecha_postulacion', 'desc');
-            }])
-            ->paginate(10);
+        $candidatos = Candidato::listarCandidatosConPostulaciones(
+            $this->search,
+            $this->sortBy,
+            $this->sortDirection,
+        );
         return view(
             'livewire.postulaciones.candidatos.list-table',
             [

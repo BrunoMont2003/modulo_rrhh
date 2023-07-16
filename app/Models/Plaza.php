@@ -40,7 +40,24 @@ class Plaza extends Model
             ->paginate($paginate);
     }
 
-    public function obtenerPlazasActivas()
+    public static function listarPlazasConPostulaciones(
+        $search = '',
+        $sortBy = 'puestos.nombre',
+        $sortDirection = 'asc',
+        $paginate = 10
+    ) {
+        return Plaza::select('plazas.*', 'puestos.nombre as puesto')
+            ->has('postulaciones')
+            ->with(['postulaciones' => function ($query) {
+                $query->orderBy('fecha_postulacion', 'desc');
+            }])
+            ->join('puestos', 'plazas.puesto_id', '=', 'puestos.id')
+            ->where('puestos.nombre', 'LIKE', "%{$search}%")
+            ->orderBy($sortBy, $sortDirection)
+            ->paginate($paginate);
+    }
+
+    public static function obtenerPlazasActivas()
     {
         return Plaza::where('fecha_inicio', '<=', date('Y-m-d'))
             ->where('fecha_fin', '>=', date('Y-m-d'))

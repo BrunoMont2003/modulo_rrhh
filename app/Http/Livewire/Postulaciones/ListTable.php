@@ -61,14 +61,11 @@ class ListTable extends Component
 
     public function render()
     {
-        $postulaciones = Postulacion::select('postulaciones.*', 'candidatos.nombre as nombre_candidato', 'puestos.nombre as puesto')
-            ->join('candidatos', 'postulaciones.candidato_id', '=', 'candidatos.id')
-            ->join('plazas', 'postulaciones.plaza_id', '=', 'plazas.id')
-            ->join('puestos', 'plazas.puesto_id', '=', 'puestos.id')
-            ->where('candidatos.nombre', 'LIKE', "%{$this->search}%")
-            ->orWhere('puestos.nombre', 'LIKE', "%{$this->search}%")
-            ->orderBy($this->sortBy, $this->sortDirection)
-            ->paginate(10);
+        $postulaciones = Postulacion::listarPostulaciones(
+            $this->search,
+            $this->sortBy,
+            $this->sortDirection,
+        );
         return view(
             'livewire.postulaciones.list-table',
             [

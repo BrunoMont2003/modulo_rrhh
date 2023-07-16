@@ -41,6 +41,27 @@ class Candidato extends Model
             ->paginate($paginate);
     }
 
+    public static function obtenerTodos()
+    {
+        return Candidato::orderBy('nombre', 'asc')->get();
+    }
+
+    public static function listarCandidatosConPostulaciones(
+        $search = '',
+        $sortBy = 'nombre',
+        $sortDirection = 'asc',
+        $paginate = 10
+    ) {
+        return Candidato
+            ::has('postulaciones')
+            ->where('nombre', 'LIKE', "%{$search}%")
+            ->orderBy($sortBy, $sortDirection)
+            ->with(['postulaciones' => function ($query) {
+                $query->orderBy('fecha_postulacion', 'desc');
+            }])
+            ->paginate($paginate);
+    }
+
     public static function crearCandidato($data)
     {
         $candidato = Candidato::create($data);

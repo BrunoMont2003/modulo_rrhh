@@ -65,16 +65,11 @@ class ListTable extends Component
 
     public function render()
     {
-        $plazas = Plaza
-            ::select('plazas.*', 'puestos.nombre as puesto')
-            ->has('postulaciones')
-            ->with(['postulaciones' => function ($query) {
-                $query->orderBy('fecha_postulacion', 'desc');
-            }])
-            ->join('puestos', 'plazas.puesto_id', '=', 'puestos.id')
-            ->where('puestos.nombre', 'LIKE', "%{$this->search}%")
-            ->orderBy($this->sortBy, $this->sortDirection)
-            ->paginate(10);
+        $plazas = Plaza::listarPlazasConPostulaciones(
+            $this->search,
+            $this->sortBy,
+            $this->sortDirection,
+        );
         return view(
             'livewire.postulaciones.plazas.list-table',
             [

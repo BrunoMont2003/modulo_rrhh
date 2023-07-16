@@ -44,9 +44,7 @@ class PostulacionController extends Controller
      */
     public function create()
     {
-        // devolver solo las plazas cuya fecha de inicio ya haya pasado
-        $plazas = Plaza::where('fecha_inicio', '<', date('Y-m-d'))->get();
-        return view('postulaciones.create', ['candidatos' => Candidato::all(), 'plazas' => $plazas]);
+        return view('postulaciones.create', ['candidatos' => Candidato::obtenerTodos(), 'plazas' => Plaza::obtenerPlazasActivas()]);
     }
 
     /**
@@ -67,7 +65,7 @@ class PostulacionController extends Controller
         // if candidato_id is null, create a new candidato
         if ($request->input('candidato_id') == null) {
             $data_candidato = $request->validate(CandidatoController::rules(), CandidatoController::messages());
-            $candidato_new = Candidato::create($data_candidato);
+            $candidato_new = Candidato::crearCandidato($data_candidato);
             $request['candidato_id'] = $candidato_new->id;
         }
 
@@ -75,19 +73,18 @@ class PostulacionController extends Controller
 
 
         // validar que no se postule a la misma plaza
-        $postulaciones = Postulacion::where('candidato_id', $data['candidato_id'])->get();
-
-        foreach ($postulaciones as $postulacion) {
-            if ($postulacion->plaza_id == $data['plaza_id']) {
-                session()->flash('toast', [
-                    'message' => 'El candidato ya se encuentra postulado a esta plaza',
-                    'type' => 'error',
-                ]);
-                return redirect()->route('postulaciones.create')->withInput();
-            }
+        if (Postulacion::esMismaPlaza(
+            $data['candidato_id'],
+            $data['plaza_id']
+        )) {
+            session()->flash('toast', [
+                'message' => 'El candidato ya se encuentra postulado a esta plaza',
+                'type' => 'error',
+            ]);
+            return redirect()->route('postulaciones.create')->withInput();
         }
 
-        Postulacion::create($data);
+        Postulacion::crearPostulacion($data);
 
         session()->flash('toast', [
             'message' => 'Postulación añadida correctamente',
@@ -111,13 +108,12 @@ class PostulacionController extends Controller
     public function edit(Postulacion $postulacion)
     {
         // devolver solo las plazas cuya fecha de inicio ya haya pasado
-        $plazas = Plaza::where('fecha_inicio', '<', date('Y-m-d'))->get();
         return view(
             'postulaciones.edit',
             [
                 'postulacion' => $postulacion,
-                'candidatos' => Candidato::orderBy('nombre')->get(),
-                'plazas' => $plazas
+                'candidatos' => Candidato::obtenerTodos(),
+                'plazas' => Plaza::obtenerPlazasActivas()
             ]
         );
     }
@@ -131,20 +127,20 @@ class PostulacionController extends Controller
         // if candidato_id is null, create a new candidato
         $data = $this->validate($request, $this->rules());
         // validar que no se postule a la misma plaza excepto si es la misma postulacion
-        $postulaciones = Postulacion::where('candidato_id', $data['candidato_id'])->get();
-
-        foreach ($postulaciones as $p) {
-            if ($p->plaza_id == $data['plaza_id'] && $p->id != $postulacion->id) {
-                session()->flash('toast', [
-                    'message' => 'El candidato ya se encuentra postulado a esta plaza',
-                    'type' => 'error',
-                ]);
-                return redirect()->route('postulaciones.edit', $postulacion)->withInput();
-            }
+        if (Postulacion::esMismaPlaza(
+            $data['candidato_id'],
+            $data['plaza_id'],
+            $postulacion->id
+        )) {
+            session()->flash('toast', [
+                'message' => 'El candidato ya se encuentra postulado a esta plaza',
+                'type' => 'error',
+            ]);
+            return redirect()->route('postulaciones.edit', $postulacion->id)->withInput();
         }
 
 
-        $postulacion->update($data);
+        Postulacion::actualizarPostulacion($postulacion, $data);
 
         session()->flash('toast', [
             'message' => 'Postulación actualizada correctamente',
@@ -159,7 +155,7 @@ class PostulacionController extends Controller
      */
     public function destroy(Postulacion $postulacion)
     {
-        $postulacion->delete();
+        Postulacion::eliminarPostulacion($postulacion);
         session()->flash('toast', [
             'message' => 'Postulación eliminada correctamente',
             'type' => 'success',
@@ -170,15 +166,7 @@ class PostulacionController extends Controller
 
     public function destroyByCandidato(Candidato $candidato)
     {
-        $postulaciones = Postulacion::where('candidato_id', $candidato->id)
-            ->get();
-
-        foreach ($postulaciones as $postulacion) {
-            Postulacion::where('plaza_id', $postulacion->plaza_id)
-                ->where('candidato_id', $postulacion->candidato_id)
-                ->delete();
-        }
-
+        Postulacion::eliminarPostulacionesDeCandidato($candidato->id);
         session()->flash('toast', [
             'message' => 'Postulaciones eliminadas correctamente',
             'type' => 'success',
@@ -188,15 +176,7 @@ class PostulacionController extends Controller
     }
     public function destroyByPlaza(Plaza $plaza)
     {
-        $postulaciones = Postulacion::where('plaza_id', $plaza->id)
-            ->get();
-
-        foreach ($postulaciones as $postulacion) {
-            Postulacion::where('plaza_id', $postulacion->plaza_id)
-                ->where('candidato_id', $postulacion->candidato_id)
-                ->delete();
-        }
-
+        Postulacion::eliminarPostulacionesDePlaza($plaza->id);
         session()->flash('toast', [
             'message' => 'Postulaciones eliminadas correctamente',
             'type' => 'success',
