@@ -100,7 +100,8 @@
                                 @endswitch
                             </td>
                             <td class="px-6 py-4 text-right inline-flex gap-2 items-center justify-center">
-                                <a href="#" class="font-medium text-blue-600 dark:text-blue-500">
+                                <a href="{{ route('postulaciones.edit', $postulacion) }}"
+                                    class="font-medium text-blue-600 dark:text-blue-500">
                                     @livewire('icons.edit', [], key('postulacion-edit-icon-' . $postulacion->id))
                                 </a>
                                 {{-- open modal to delete --}}

@@ -110,7 +110,16 @@ class PostulacionController extends Controller
      */
     public function edit(Postulacion $postulacion)
     {
-        return view('postulaciones.edit', compact('postulacion'));
+        // devolver solo las plazas cuya fecha de inicio ya haya pasado
+        $plazas = Plaza::where('fecha_inicio', '<', date('Y-m-d'))->get();
+        return view(
+            'postulaciones.edit',
+            [
+                'postulacion' => $postulacion,
+                'postulantes' => Postulante::orderBy('nombre')->get(),
+                'plazas' => $plazas
+            ]
+        );
     }
 
     /**
@@ -118,7 +127,31 @@ class PostulacionController extends Controller
      */
     public function update(Request $request, Postulacion $postulacion)
     {
-        //
+        date_default_timezone_set('America/Lima');
+        // if postulante_id is null, create a new postulante
+        $data = $this->validate($request, $this->rules());
+        // validar que no se postule a la misma plaza excepto si es la misma postulacion
+        $postulaciones = Postulacion::where('postulante_id', $data['postulante_id'])->get();
+
+        foreach ($postulaciones as $p) {
+            if ($p->plaza_id == $data['plaza_id'] && $p->id != $postulacion->id) {
+                session()->flash('toast', [
+                    'message' => 'El postulante ya se encuentra postulado a esta plaza',
+                    'type' => 'error',
+                ]);
+                return redirect()->route('postulaciones.edit', $postulacion)->withInput();
+            }
+        }
+
+
+        $postulacion->update($data);
+
+        session()->flash('toast', [
+            'message' => 'Postulación actualizada correctamente',
+            'type' => 'success',
+        ]);
+
+        return redirect()->route('postulaciones.index');
     }
 
     /**

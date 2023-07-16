@@ -48,6 +48,7 @@ class ListTable extends Component
     }
     public function confirmPostulacionDeletion(Postulacion $postulacion)
     {
+        $postulacion->load('postulante', 'plaza');
         $this->selectedPostulacion = $postulacion;
         $this->confirmingPostulacionDeletion = true;
     }

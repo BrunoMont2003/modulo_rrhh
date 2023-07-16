@@ -87,8 +87,7 @@
                                 class="font-medium text-blue-600 dark:text-blue-500">
                                 @livewire('icons.edit', [], key('edit-icon-' . $postulacion->id))
                             </a>
-                            {{-- open modal to delete --}}
-                            <button wire:click="confirmPostulacionesDeletion({{ $postulacion }})"
+                            <button wire:click="confirmPostulacionDeletion({{ $postulacion }})"
                                 class="font-medium text-red-600 dark:text-red-500 hover:underline">
                                 @livewire('icons.drop', [], key('drop-icon-' . $postulacion->id))
                             </button>
@@ -113,15 +112,16 @@
     @if ($confirmingPostulacionDeletion)
         <x-confirm-deletion-modal modalName="confirm-postulacion-deletion"
             action="{{ route('postulaciones.destroy', $selectedPostulacion) }}"
-            title="Estas seguro de querer eliminar la postulación de este postulacion?" confirmButtonText="Sí, eliminar"
+            title="Estas seguro de querer eliminar esta postulación?" confirmButtonText="Sí, eliminar"
             onClose="cerrarModal" cancelButtonText="No, cancelar" wire:click="deletePostulaciones">
             <x-slot name="description">
                 <p class="mb-3">
 
-                    <span class="font-semibold text-gray-500 dark:text-gray-400">Nombre:</span>
-                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->postulacion->nombre }}
+                    <span class="font-semibold text-gray-500 dark:text-gray-400">Postulante:</span>
+                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->postulante->nombre }}
                     </span>
-                    <span class="font-semibold text-gray-500 dark:text-gray-400">Puesto:</span>
+                    <br>
+                    <span class="font-semibold text-gray-500 dark:text-gray-400">Puesto postulado:</span>
                     <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->plaza->puesto->nombre }}
                     </span>
                 </p>

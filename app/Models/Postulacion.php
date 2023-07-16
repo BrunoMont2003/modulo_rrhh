@@ -20,7 +20,6 @@ class Postulacion extends Model
 
     protected $casts = [
         'estado' => 'string',
-        'fecha_postulacion' => 'date',
     ];
 
     public function postulante()
