@@ -2,7 +2,7 @@
     $navigation = [
         'Dashboard' => 'dashboard',
         'Reclutamiento' => [
-            'Postulantes' => 'postulantes.index',
+            'Candidatos' => 'candidatos.index',
             'Plazas' => 'plazas.index',
             'Puestos' => 'puestos.index',
             'Equipos' => 'equipos.index',

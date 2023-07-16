@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Livewire\Postulantes;
+namespace App\Http\Livewire\Candidatos;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Postulante;
+use App\Models\Candidato;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,8 +12,8 @@ class ListTable extends Component
     use WithPagination;
     use WithSorting;
     public $search = '';
-    public $confirmingPostulanteDeletion = false;
-    public $selectedPostulante = null;
+    public $confirmingCandidatoDeletion = false;
+    public $selectedCandidato = null;
     protected $listeners = ['sort', 'search'];
     protected $queryString = [
 
@@ -35,24 +35,24 @@ class ListTable extends Component
         $this->resetPage();
     }
 
-    public function confirmPostulanteDeletion(Postulante $postulante)
+    public function confirmCandidatoDeletion(Candidato $candidato)
     {
-        $this->confirmingPostulanteDeletion = true;
-        $this->selectedPostulante = $postulante;
+        $this->confirmingCandidatoDeletion = true;
+        $this->selectedCandidato = $candidato;
 
-        $this->emit('open-custom-modal', 'confirm-postulante-deletion');
+        $this->emit('open-custom-modal', 'confirm-candidato-deletion');
     }
 
     public function cerrarModal()
     {
-        $this->confirmingPostulanteDeletion = false;
-        $this->selectedPostulante = null;
+        $this->confirmingCandidatoDeletion = false;
+        $this->selectedCandidato = null;
     }
 
     public function render()
     {
-        return view('livewire.postulantes.list-table', [
-            'postulantes' => Postulante
+        return view('livewire.candidatos.list-table', [
+            'candidatos' => Candidato
                 ::where('nombre', 'LIKE', "%{$this->search}%")->orderBy($this->sortBy, $this->sortDirection)
                 ->paginate(10),
         ]);

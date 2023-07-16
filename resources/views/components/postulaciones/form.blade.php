@@ -1,4 +1,4 @@
-@props(['postulante' => null, 'postulantes' => [], 'plazas' => []])
+@props(['candidato' => null, 'candidatos' => [], 'plazas' => []])
 
 @php
     use Carbon\Carbon;
@@ -12,9 +12,9 @@
             'label' => 'Femenino',
         ],
     ];
-    $postulantes_options = [];
-    foreach ($postulantes as $p) {
-        $postulantes_options[] = (object) [
+    $candidatos_options = [];
+    foreach ($candidatos as $p) {
+        $candidatos_options[] = (object) [
             'value' => $p->id,
             'label' => $p->nombre . ' - ' . $p->dni,
         ];
@@ -36,45 +36,45 @@
     </div>
 @else
     <form method="POST"
-        action="{{ $postulante ? route('postulaciones.update', $postulante) : route('postulaciones.store') }}"
+        action="{{ $candidato ? route('postulaciones.update', $candidato) : route('postulaciones.store') }}"
         class="grid md:grid-cols-2 gap-5">
         @csrf
-        {{ $postulante ? method_field('PUT') : '' }}
+        {{ $candidato ? method_field('PUT') : '' }}
         <div class="p-5 border dark:border-gray-800 col-span-full grid md:grid-cols-2 gap-5">
             <h2 class="col-span-full bold dark:text-white">
-                Registrar postulante
+                Registrar candidato
             </h2>
 
-            <x-input-group value="{{ $postulante ? $postulante->nombre : '' }}" label="Nombre" name="nombre" type="text"
-                placeholder="Ingrese nombre del postulante" />
+            <x-input-group value="{{ $candidato ? $candidato->nombre : '' }}" label="Nombre" name="nombre" type="text"
+                placeholder="Ingrese nombre del candidato" />
 
-            <x-input-group value="{{ $postulante ? $postulante->email : '' }}" label="Email" name="email"
-                type="email" placeholder="Ingrese email del postulante" />
+            <x-input-group value="{{ $candidato ? $candidato->email : '' }}" label="Email" name="email"
+                type="email" placeholder="Ingrese email del candidato" />
 
-            <x-input-group value="{{ $postulante ? $postulante->dni : '' }}" label="DNI" name="dni"
-                type="text" placeholder="Ingrese DNI del postulante" />
+            <x-input-group value="{{ $candidato ? $candidato->dni : '' }}" label="DNI" name="dni"
+                type="text" placeholder="Ingrese DNI del candidato" />
 
-            <x-input-group value="{{ $postulante ? $postulante->fecha_nacimiento : '' }}" label="Fecha de Nacimiento"
+            <x-input-group value="{{ $candidato ? $candidato->fecha_nacimiento : '' }}" label="Fecha de Nacimiento"
                 name="fecha_nacimiento" type="date" />
 
-            <x-input-group value="{{ $postulante ? $postulante->genero : '' }}" label="Género" name="genero"
+            <x-input-group value="{{ $candidato ? $candidato->genero : '' }}" label="Género" name="genero"
                 type="select" :options="$generos" />
 
-            <x-input-group value="{{ $postulante ? $postulante->direccion : '' }}" label="Dirección" name="direccion"
-                type="text" placeholder="Ingrese dirección del postulante" />
+            <x-input-group value="{{ $candidato ? $candidato->direccion : '' }}" label="Dirección" name="direccion"
+                type="text" placeholder="Ingrese dirección del candidato" />
 
-            <x-input-group value="{{ $postulante ? $postulante->telefono : '' }}" label="Teléfono" name="telefono"
-                type="text" placeholder="Ingrese teléfono del postulante" />
+            <x-input-group value="{{ $candidato ? $candidato->telefono : '' }}" label="Teléfono" name="telefono"
+                type="text" placeholder="Ingrese teléfono del candidato" />
 
-            <x-input-group value="{{ $postulante ? $postulante->curriculum_url : '' }}" label="Enlace de Currículum"
-                name="curriculum_url" type="text" placeholder="Ingrese enlace de currículum del postulante" />
+            <x-input-group value="{{ $candidato ? $candidato->curriculum_url : '' }}" label="Enlace de Currículum"
+                name="curriculum_url" type="text" placeholder="Ingrese enlace de currículum del candidato" />
         </div>
         <div class="capitalize bold flex items-center justify-center p-2 col-span-full">o</div>
 
         <div class="p-5 border dark:border-gray-800 col-span-full grid md:grid-cols-2 gap-5">
 
-            <h2 class="col-span-full bold dark:text-white">Seleccionar un postulante</h2>
-            <x-input-group label="Postulante" :options="$postulantes_options" name="postulante_id" type="select"
+            <h2 class="col-span-full bold dark:text-white">Seleccionar un candidato</h2>
+            <x-input-group label="Candidato" :options="$candidatos_options" name="candidato_id" type="select"
                 class="col-span-full">
             </x-input-group>
         </div>

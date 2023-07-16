@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Plaza;
 use App\Models\Postulacion;
-use App\Models\Postulante;
+use App\Models\Candidato;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,7 @@ class PostulacionController extends Controller
 {
 
     use ValidatesRequests;
-    protected function rulesWithOutPostulante()
+    protected function rulesWithOutCandidato()
     {
         return [
             'plaza_id' => 'required|exists:plazas,id',
@@ -23,7 +23,7 @@ class PostulacionController extends Controller
     protected function rules()
     {
         return [
-            'postulante_id' => 'required|exists:postulantes,id',
+            'candidato_id' => 'required|exists:candidatos,id',
             'plaza_id' => 'required|exists:plazas,id',
             'fecha_postulacion' => 'required|date|after_or_equal:today'
         ];
@@ -46,7 +46,7 @@ class PostulacionController extends Controller
     {
         // devolver solo las plazas cuya fecha de inicio ya haya pasado
         $plazas = Plaza::where('fecha_inicio', '<', date('Y-m-d'))->get();
-        return view('postulaciones.create', ['postulantes' => Postulante::all(), 'plazas' => $plazas]);
+        return view('postulaciones.create', ['candidatos' => Candidato::all(), 'plazas' => $plazas]);
     }
 
     /**
@@ -55,32 +55,32 @@ class PostulacionController extends Controller
     public function store(Request $request)
     {
         date_default_timezone_set('America/Lima');
-        $request->validate($this->rulesWithOutPostulante());
-        // if postulante_id is set and nombre, email and dni are set, return error
-        if ($request->input('postulante_id') != null && ($request->input('nombre') != null || $request->input('email') != null || $request->input('dni') != null)) {
+        $request->validate($this->rulesWithOutCandidato());
+        // if candidato_id is set and nombre, email and dni are set, return error
+        if ($request->input('candidato_id') != null && ($request->input('nombre') != null || $request->input('email') != null || $request->input('dni') != null)) {
             session()->flash('toast', [
-                'message' => 'Tienes que deseleccionar el postulante para crear uno nuevo',
+                'message' => 'Tienes que deseleccionar el candidato para crear uno nuevo',
                 'type' => 'error',
             ]);
             return redirect()->route('postulaciones.create')->withInput();
         }
-        // if postulante_id is null, create a new postulante
-        if ($request->input('postulante_id') == null) {
-            $data_postulante = $request->validate(PostulanteController::rules(), PostulanteController::messages());
-            $postulante_new = Postulante::create($data_postulante);
-            $request['postulante_id'] = $postulante_new->id;
+        // if candidato_id is null, create a new candidato
+        if ($request->input('candidato_id') == null) {
+            $data_candidato = $request->validate(CandidatoController::rules(), CandidatoController::messages());
+            $candidato_new = Candidato::create($data_candidato);
+            $request['candidato_id'] = $candidato_new->id;
         }
 
         $data = $this->validate($request, $this->rules());
 
 
         // validar que no se postule a la misma plaza
-        $postulaciones = Postulacion::where('postulante_id', $data['postulante_id'])->get();
+        $postulaciones = Postulacion::where('candidato_id', $data['candidato_id'])->get();
 
         foreach ($postulaciones as $postulacion) {
             if ($postulacion->plaza_id == $data['plaza_id']) {
                 session()->flash('toast', [
-                    'message' => 'El postulante ya se encuentra postulado a esta plaza',
+                    'message' => 'El candidato ya se encuentra postulado a esta plaza',
                     'type' => 'error',
                 ]);
                 return redirect()->route('postulaciones.create')->withInput();
@@ -116,7 +116,7 @@ class PostulacionController extends Controller
             'postulaciones.edit',
             [
                 'postulacion' => $postulacion,
-                'postulantes' => Postulante::orderBy('nombre')->get(),
+                'candidatos' => Candidato::orderBy('nombre')->get(),
                 'plazas' => $plazas
             ]
         );
@@ -128,15 +128,15 @@ class PostulacionController extends Controller
     public function update(Request $request, Postulacion $postulacion)
     {
         date_default_timezone_set('America/Lima');
-        // if postulante_id is null, create a new postulante
+        // if candidato_id is null, create a new candidato
         $data = $this->validate($request, $this->rules());
         // validar que no se postule a la misma plaza excepto si es la misma postulacion
-        $postulaciones = Postulacion::where('postulante_id', $data['postulante_id'])->get();
+        $postulaciones = Postulacion::where('candidato_id', $data['candidato_id'])->get();
 
         foreach ($postulaciones as $p) {
             if ($p->plaza_id == $data['plaza_id'] && $p->id != $postulacion->id) {
                 session()->flash('toast', [
-                    'message' => 'El postulante ya se encuentra postulado a esta plaza',
+                    'message' => 'El candidato ya se encuentra postulado a esta plaza',
                     'type' => 'error',
                 ]);
                 return redirect()->route('postulaciones.edit', $postulacion)->withInput();
@@ -168,14 +168,14 @@ class PostulacionController extends Controller
         return redirect()->route('postulaciones.index');
     }
 
-    public function destroyByPostulante(Postulante $postulante)
+    public function destroyByCandidato(Candidato $candidato)
     {
-        $postulaciones = Postulacion::where('postulante_id', $postulante->id)
+        $postulaciones = Postulacion::where('candidato_id', $candidato->id)
             ->get();
 
         foreach ($postulaciones as $postulacion) {
             Postulacion::where('plaza_id', $postulacion->plaza_id)
-                ->where('postulante_id', $postulacion->postulante_id)
+                ->where('candidato_id', $postulacion->candidato_id)
                 ->delete();
         }
 
@@ -184,7 +184,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('postulaciones.index', ['mode' => 'postulante']);
+        return redirect()->route('postulaciones.index', ['mode' => 'candidato']);
     }
     public function destroyByPlaza(Plaza $plaza)
     {
@@ -193,7 +193,7 @@ class PostulacionController extends Controller
 
         foreach ($postulaciones as $postulacion) {
             Postulacion::where('plaza_id', $postulacion->plaza_id)
-                ->where('postulante_id', $postulacion->postulante_id)
+                ->where('candidato_id', $postulacion->candidato_id)
                 ->delete();
         }
 

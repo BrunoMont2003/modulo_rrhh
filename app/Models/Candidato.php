@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Postulante extends Model
+class Candidato extends Model
 {
     use HasFactory;
 
@@ -24,6 +24,6 @@ class Postulante extends Model
 
     public function postulaciones(): HasMany
     {
-        return $this->hasMany(Postulacion::class, 'postulante_id');
+        return $this->hasMany(Postulacion::class, 'candidato_id');
     }
 }

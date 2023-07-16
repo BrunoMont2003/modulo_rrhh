@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\Postulaciones\Postulantes;
+namespace App\Http\Livewire\Postulaciones\Candidatos;
 
 use App\Http\Traits\WithSorting;
 use App\Models\Postulacion;
-use App\Models\Postulante;
+use App\Models\Candidato;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,7 +15,7 @@ class ListTable extends Component
     public $search = '';
     public $confirmingPostulacionesDeletion = false;
     public $confirmingPostulacionDeletion = false;
-    public $selectedPostulante = null;
+    public $selectedCandidato = null;
     public $selectedPostulacion = null;
     public $expandedRows = [];
 
@@ -50,10 +50,10 @@ class ListTable extends Component
         }
     }
 
-    public function confirmPostulacionesDeletion(Postulante $postulante)
+    public function confirmPostulacionesDeletion(Candidato $candidato)
     {
         $this->confirmingPostulacionesDeletion = true;
-        $this->selectedPostulante = $postulante;
+        $this->selectedCandidato = $candidato;
 
         $this->emit('open-custom-modal', 'confirm-postulaciones-deletion');
     }
@@ -66,7 +66,7 @@ class ListTable extends Component
     public function cerrarModal()
     {
         $this->confirmingPostulacionesDeletion = false;
-        $this->selectedPostulante = null;
+        $this->selectedCandidato = null;
         $this->confirmingPostulacionDeletion = false;
         $this->selectedPostulacion = null;
     }
@@ -74,7 +74,7 @@ class ListTable extends Component
 
     public function render()
     {
-        $postulantes = Postulante
+        $candidatos = Candidato
             ::has('postulaciones')
             ->where('nombre', 'LIKE', "%{$this->search}%")->orderBy($this->sortBy, $this->sortDirection)
             ->with(['postulaciones' => function ($query) {
@@ -82,9 +82,9 @@ class ListTable extends Component
             }])
             ->paginate(10);
         return view(
-            'livewire.postulaciones.postulantes.list-table',
+            'livewire.postulaciones.candidatos.list-table',
             [
-                'postulantes' => $postulantes,
+                'candidatos' => $candidatos,
             ]
 
         );

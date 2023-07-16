@@ -53,7 +53,7 @@
                     </tr>
                     <tr class="px-6 py-3 bg-gray-200 dark:bg-gray-800 border-b border-gray-300">
                         <th scope="col" class="px-6 py-3">
-                            Postulante
+                            Candidato
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <div class="flex items-center">
@@ -75,9 +75,9 @@
                             class="bg-gray-200 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
                             <td class="px-6 py-4">
-                                {{ $postulacion->postulante->nombre }}
+                                {{ $postulacion->candidato->nombre }}
                                 -
-                                {{ $postulacion->postulante->dni }}
+                                {{ $postulacion->candidato->dni }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ Carbon::parse($postulacion->fecha_postulacion)->locale('es_ES')->isoFormat('LL') }}
@@ -162,13 +162,13 @@
     @if ($confirmingPostulacionDeletion)
         <x-confirm-deletion-modal modalName="confirm-postulacion-deletion"
             action="{{ route('postulaciones.destroy', $selectedPostulacion) }}"
-            title="Estas seguro de querer eliminar la postulación de este postulante?" confirmButtonText="Sí, eliminar"
+            title="Estas seguro de querer eliminar la postulación de este candidato?" confirmButtonText="Sí, eliminar"
             onClose="cerrarModal" cancelButtonText="No, cancelar" wire:click="deletePostulaciones">
             <x-slot name="description">
                 <p class="mb-3">
 
                     <span class="font-semibold text-gray-500 dark:text-gray-400">Nombre:</span>
-                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->postulante->nombre }}
+                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->candidato->nombre }}
                     </span>
                     <span class="font-semibold text-gray-500 dark:text-gray-400">Puesto:</span>
                     <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->plaza->puesto->nombre }}

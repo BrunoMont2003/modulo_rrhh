@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('postulaciones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('postulante_id');
+            $table->unsignedBigInteger('candidato_id');
             $table->unsignedBigInteger('plaza_id');
             $table->enum('estado', ['pendiente', 'en revision', 'aprobado', 'rechazado']);
             $table->date('fecha_postulacion');

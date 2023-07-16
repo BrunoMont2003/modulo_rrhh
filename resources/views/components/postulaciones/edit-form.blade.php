@@ -1,8 +1,8 @@
-@props(['postulacion' => null, 'postulantes' => [], 'plazas' => []])
+@props(['postulacion' => null, 'candidatos' => [], 'plazas' => []])
 
 @php
     use Carbon\Carbon;
-    $postulante = $postulacion ? $postulacion->postulante : null;
+    $candidato = $postulacion ? $postulacion->candidato : null;
     $generos = [
         (object) [
             'value' => 'masculino',
@@ -13,9 +13,9 @@
             'label' => 'Femenino',
         ],
     ];
-    $postulantes_options = [];
-    foreach ($postulantes as $p) {
-        $postulantes_options[] = (object) [
+    $candidatos_options = [];
+    foreach ($candidatos as $p) {
+        $candidatos_options[] = (object) [
             'value' => $p->id,
             'label' => $p->nombre . ' - ' . $p->dni,
         ];
@@ -43,9 +43,9 @@
         @method('PUT')
         @csrf
 
-        <h2 class="col-span-full bold dark:text-white">Seleccionar un postulante</h2>
-        <x-input-group label="Postulante" :options="$postulantes_options" name="postulante_id" type="select" class="col-span-full"
-            :value="$postulante ? $postulante->id : ''">
+        <h2 class="col-span-full bold dark:text-white">Seleccionar un candidato</h2>
+        <x-input-group label="Candidato" :options="$candidatos_options" name="candidato_id" type="select" class="col-span-full"
+            :value="$candidato ? $candidato->id : ''">
 
             >
         </x-input-group>

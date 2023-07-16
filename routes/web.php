@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\PostulanteController;
+use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\HorarioController;
@@ -42,14 +42,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/postulaciones/{postulacion}/edit', 'edit')->name('postulaciones.edit');
             Route::post('/postulaciones', 'store')->name('postulaciones.store');
             Route::put('/postulaciones/{postulacion}', 'update')->name('postulaciones.update');
-            Route::delete('/postulaciones/{postulante}/delete', 'destroyByPostulante')->name('postulaciones.destroyByPostulante');
+            Route::delete('/postulaciones/{candidato}/delete', 'destroyByCandidato')->name('postulaciones.destroyByCandidato');
             Route::delete('/postulaciones/porplaza/{plaza}/delete', 'destroyByPlaza')->name('postulaciones.destroyByPlaza');
             Route::delete('/postulaciones/{postulacion}', 'destroy')->name('postulaciones.destroy');
         }
     );
 
 
-    Route::resource('/postulantes', PostulanteController::class);
+    Route::resource('/candidatos', CandidatoController::class);
     Route::resource('/plazas', PlazaController::class);
     Route::resource('/puestos', PuestoController::class);
     Route::resource('/equipos', EquipoController::class);

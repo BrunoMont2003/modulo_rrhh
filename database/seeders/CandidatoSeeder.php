@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Postulante;
+use App\Models\Candidato;
 use Illuminate\Database\Seeder;
 
-class PostulanteSeeder extends Seeder
+class CandidatoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Postulante::factory(20)->create();
+        Candidato::factory(20)->create();
     }
 }

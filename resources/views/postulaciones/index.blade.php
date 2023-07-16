@@ -25,8 +25,8 @@
                         <x-dropdown-link :href="route('postulaciones.index')">
                             Normal
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('postulaciones.index', ['mode' => 'postulantes'])">
-                            Por Postulantes
+                        <x-dropdown-link :href="route('postulaciones.index', ['mode' => 'candidatos'])">
+                            Por Candidatos
                         </x-dropdown-link>
 
                         <x-dropdown-link :href="route('postulaciones.index', ['mode' => 'plazas'])">
@@ -49,8 +49,8 @@
                             @livewire('postulaciones.plazas.list-table')
                         @break
 
-                        @case('postulantes')
-                            @livewire('postulaciones.postulantes.list-table')
+                        @case('candidatos')
+                            @livewire('postulaciones.candidatos.list-table')
                         @break
 
                         @default

@@ -3,7 +3,7 @@
 @endphp
 <div class="flex flex-col gap-5 w-full">
     <div class="flex py-4 w-full items-center justify-between  dark:border-gray-700 border-b border-gray-200 ">
-        @livewire('common.search-box', ['placeholder' => 'Ingrese nombre del postulante'])
+        @livewire('common.search-box', ['placeholder' => 'Ingrese nombre del candidato'])
         <a href="{{ route('postulaciones.create') }}"
             class="px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-blue-500 dark:focus:bg-gray-700">Nuevo</a>
 
@@ -48,30 +48,30 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($postulantes as $postulante)
+                @foreach ($candidatos as $candidato)
                     <tr
                         class="bg-white border-b dark:bg-black dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-opacity-75 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                         <th scope="row" class="px-6 py-4  dark:text-white">
-                            {{ $postulante->nombre }}
+                            {{ $candidato->nombre }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ $postulante->dni }}
+                            {{ $candidato->dni }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $postulante->email }}
+                            {{ $candidato->email }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $postulante->telefono }}
+                            {{ $candidato->telefono }}
                         </td>
                         <td class="px-6 py-4">
-                            <a href="{{ $postulante->curriculum_url }}" target="_blank" class="font-medium">
-                                @livewire('icons.cv', [], key($postulante->id))
+                            <a href="{{ $candidato->curriculum_url }}" target="_blank" class="font-medium">
+                                @livewire('icons.cv', [], key($candidato->id))
                             </a>
                         </td>
                         <td class="px-6 py-4 text-right inline-flex gap-2 items-center justify-center">
-                            <button wire:click="confirmPostulacionesDeletion({{ $postulante }})"
+                            <button wire:click="confirmPostulacionesDeletion({{ $candidato }})"
                                 class="font-medium text-red-600 dark:text-red-500 hover:underline">
-                                @livewire('icons.drop', [], key('drop-icon-' . $postulante->id))
+                                @livewire('icons.drop', [], key('drop-icon-' . $candidato->id))
                             </button>
 
                         </td>
@@ -95,7 +95,7 @@
                             <span class="sr-only">Actions</span>
                         </th>
                     </tr>
-                    @foreach ($postulante->postulaciones as $postulacion)
+                    @foreach ($candidato->postulaciones as $postulacion)
                         <tr
                             class="bg-gray-200 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
@@ -141,7 +141,7 @@
         </table>
         <div
             class="pagination-links px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-full">
-            {{ $postulantes->links() }}
+            {{ $candidatos->links() }}
         </div>
         <div wire:loading.flex
             class="absolute top-0 left-0 flex items-center justify-center w-full h-full dark:bg-gray-700 bg-gray-300 opacity-75 z-20">
@@ -151,15 +151,15 @@
     </div>
     @if ($confirmingPostulacionesDeletion)
         <x-confirm-deletion-modal modalName="confirm-postulaciones-deletion"
-            action="{{ route('postulaciones.destroyByPostulante', $selectedPostulante) }}"
-            title="Estas seguro de querer eliminar todas las postulaciones de este postulante?"
+            action="{{ route('postulaciones.destroyByCandidato', $selectedCandidato) }}"
+            title="Estas seguro de querer eliminar todas las postulaciones de este candidato?"
             confirmButtonText="Sí, eliminar" onClose="cerrarModal" cancelButtonText="No, cancelar"
             wire:click="deletePostulaciones">
             <x-slot name="description">
                 <p class="mb-3">
 
                     <span class="font-semibold text-gray-500 dark:text-gray-400">Nombre:</span>
-                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulante->nombre }}
+                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedCandidato->nombre }}
                     </span>
                 </p>
             </x-slot>
@@ -168,13 +168,13 @@
     @if ($confirmingPostulacionDeletion)
         <x-confirm-deletion-modal modalName="confirm-postulacion-deletion"
             action="{{ route('postulaciones.destroy', $selectedPostulacion) }}"
-            title="Estas seguro de querer eliminar la postulación de este postulante?" confirmButtonText="Sí, eliminar"
+            title="Estas seguro de querer eliminar la postulación de este candidato?" confirmButtonText="Sí, eliminar"
             onClose="cerrarModal" cancelButtonText="No, cancelar" wire:click="deletePostulaciones">
             <x-slot name="description">
                 <p class="mb-3">
 
                     <span class="font-semibold text-gray-500 dark:text-gray-400">Nombre:</span>
-                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->postulante->nombre }}
+                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->candidato->nombre }}
                     </span>
                     <span class="font-semibold text-gray-500 dark:text-gray-400">Puesto:</span>
                     <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->plaza->puesto->nombre }}

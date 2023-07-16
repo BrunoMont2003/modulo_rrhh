@@ -48,7 +48,7 @@ class ListTable extends Component
     }
     public function confirmPostulacionDeletion(Postulacion $postulacion)
     {
-        $postulacion->load('postulante', 'plaza');
+        $postulacion->load('candidato', 'plaza');
         $this->selectedPostulacion = $postulacion;
         $this->confirmingPostulacionDeletion = true;
     }
@@ -61,11 +61,11 @@ class ListTable extends Component
 
     public function render()
     {
-        $postulaciones = Postulacion::select('postulaciones.*', 'postulantes.nombre as nombre_postulante', 'puestos.nombre as puesto')
-            ->join('postulantes', 'postulaciones.postulante_id', '=', 'postulantes.id')
+        $postulaciones = Postulacion::select('postulaciones.*', 'candidatos.nombre as nombre_candidato', 'puestos.nombre as puesto')
+            ->join('candidatos', 'postulaciones.candidato_id', '=', 'candidatos.id')
             ->join('plazas', 'postulaciones.plaza_id', '=', 'plazas.id')
             ->join('puestos', 'plazas.puesto_id', '=', 'puestos.id')
-            ->where('postulantes.nombre', 'LIKE', "%{$this->search}%")
+            ->where('candidatos.nombre', 'LIKE', "%{$this->search}%")
             ->orWhere('puestos.nombre', 'LIKE', "%{$this->search}%")
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(10);

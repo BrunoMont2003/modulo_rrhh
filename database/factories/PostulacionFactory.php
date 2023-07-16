@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\postulante;
+use App\Models\candidato;
 use App\Models\postulacion;
 use App\Models\Plaza;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,7 +19,7 @@ class PostulacionFactory extends Factory
     public function definition(): array
     {
         return [
-            'postulante_id' => postulante::inRandomOrder()->first()->id,
+            'candidato_id' => candidato::inRandomOrder()->first()->id,
             'plaza_id' => Plaza::inRandomOrder()->first()->id,
             'estado' => $this->faker->randomElement(['pendiente', 'en revision', 'aprobado', 'rechazado']),
             'fecha_postulacion' => $this->faker->date(),

@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Postulante;
+use App\Models\Candidato;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class PostulanteController extends Controller
+class CandidatoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
 
-    public static function rules($postulante = null)
+    public static function rules($candidato = null)
     {
         return [
             'nombre' => 'required',
             'email' => [
                 'required',
                 'email',
-                Rule::unique('postulantes')->ignore($postulante),
+                Rule::unique('candidatos')->ignore($candidato),
             ],
             'dni' => [
                 'required',
                 'numeric',
                 'digits:8',
-                Rule::unique('postulantes')->ignore($postulante),
+                Rule::unique('candidatos')->ignore($candidato),
             ],
             'genero' => 'required',
             'fecha_nacimiento' => 'required|date|before:2004-01-01|after:1940-01-01',
@@ -34,7 +34,7 @@ class PostulanteController extends Controller
                 'required',
                 'numeric',
                 'digits:9',
-                Rule::unique('postulantes')->ignore($postulante),
+                Rule::unique('candidatos')->ignore($candidato),
             ],
             'curriculum_url' => 'required|url',
         ];
@@ -72,7 +72,7 @@ class PostulanteController extends Controller
 
     public function index()
     {
-        return view('postulantes.index');
+        return view('candidatos.index');
     }
 
     /**
@@ -80,7 +80,7 @@ class PostulanteController extends Controller
      */
     public function create()
     {
-        return view('postulantes.create', ['title' => 'Nuevo postulante']);
+        return view('candidatos.create', ['title' => 'Nuevo candidato']);
     }
 
     /**
@@ -89,21 +89,21 @@ class PostulanteController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate($request, $this->rules(), $this->messages());
-        Postulante::create($data);
+        Candidato::create($data);
         session()->flash(
             'toast',
             [
-                'message' => 'Postulante creado correctamente',
+                'message' => 'Candidato creado correctamente',
                 'type' => 'success',
             ]
         );
-        return redirect()->route('postulantes.index');
+        return redirect()->route('candidatos.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Postulante $postulante)
+    public function show(Candidato $candidato)
     {
         //
     }
@@ -111,43 +111,43 @@ class PostulanteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Postulante $postulante)
+    public function edit(Candidato $candidato)
     {
-        return view('postulantes.edit', ['title' => 'Editar postulante', 'postulante' => $postulante]);
+        return view('candidatos.edit', ['title' => 'Editar candidato', 'candidato' => $candidato]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Postulante $postulante)
+    public function update(Request $request, Candidato $candidato)
     {
-        $data = $this->validate($request, $this->rules($postulante), $this->messages());
-        $postulante->update($data);
+        $data = $this->validate($request, $this->rules($candidato), $this->messages());
+        $candidato->update($data);
         session()->flash(
             'toast',
             [
-                'message' => 'Postulante actualizado correctamente',
+                'message' => 'Candidato actualizado correctamente',
                 'type' => 'success',
             ]
         );
-        return redirect()->route('postulantes.index');
+        return redirect()->route('candidatos.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Postulante $postulante)
+    public function destroy(Candidato $candidato)
     {
-        $postulante->delete();
+        $candidato->delete();
 
         session()->flash(
             'toast',
             [
-                'message' => 'Postulante eliminado correctamente',
+                'message' => 'Candidato eliminado correctamente',
                 'type' => 'success',
             ]
         );
 
-        return redirect()->route('postulantes.index');
+        return redirect()->route('candidatos.index');
     }
 }

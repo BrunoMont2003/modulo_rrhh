@@ -3,7 +3,7 @@
 @endphp
 <div class="flex flex-col gap-5 w-full">
     <div class="flex py-4 w-full items-center justify-between  dark:border-gray-700 border-b border-gray-200 ">
-        @livewire('common.search-box', ['placeholder' => 'Buscar por postulante o puesto postulado'])
+        @livewire('common.search-box', ['placeholder' => 'Buscar por candidato o puesto postulado'])
         <a href="{{ route('postulaciones.create') }}"
             class="px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-blue-500 dark:focus:bg-gray-700">Nuevo</a>
 
@@ -13,8 +13,8 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        Postulante
-                        @livewire('common.sort-button', ['field' => 'nombre_postulante'])
+                        Candidato
+                        @livewire('common.sort-button', ['field' => 'nombre_candidato'])
                     </th>
                     <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
@@ -50,9 +50,9 @@
                     <tr
                         class="bg-white border-b dark:bg-black dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-opacity-75 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                         <th scope="row" class="px-6 py-4  dark:text-white">
-                            {{ $postulacion->postulante->nombre }}
+                            {{ $postulacion->candidato->nombre }}
                             -
-                            {{ $postulacion->postulante->dni }}
+                            {{ $postulacion->candidato->dni }}
                         </th>
                         <td class="px-6 py-4">
                             {{ $postulacion->plaza->puesto->nombre }}
@@ -77,7 +77,7 @@
                             @endswitch
                         </td>
                         <td class="px-6 py-4">
-                            <a href="{{ $postulacion->postulante->curriculum_url }}" target="_blank"
+                            <a href="{{ $postulacion->candidato->curriculum_url }}" target="_blank"
                                 class="font-medium">
                                 @livewire('icons.cv', [], key($postulacion->id))
                             </a>
@@ -117,8 +117,8 @@
             <x-slot name="description">
                 <p class="mb-3">
 
-                    <span class="font-semibold text-gray-500 dark:text-gray-400">Postulante:</span>
-                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->postulante->nombre }}
+                    <span class="font-semibold text-gray-500 dark:text-gray-400">Candidato:</span>
+                    <span class="text-gray-500 dark:text-gray-400">{{ $selectedPostulacion->candidato->nombre }}
                     </span>
                     <br>
                     <span class="font-semibold text-gray-500 dark:text-gray-400">Puesto postulado:</span>

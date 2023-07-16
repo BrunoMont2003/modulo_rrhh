@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\postulante;
+use App\Models\candidato;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PostulanteFactory extends Factory
+class CandidatoFactory extends Factory
 {
-    protected $model = Postulante::class;
+    protected $model = Candidato::class;
 
     /**
      * Define the model's default state.

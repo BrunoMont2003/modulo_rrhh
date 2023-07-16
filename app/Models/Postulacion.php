@@ -12,7 +12,7 @@ class Postulacion extends Model
     protected $table = 'postulaciones';
 
     protected $fillable = [
-        'postulante_id',
+        'candidato_id',
         'plaza_id',
         'estado',
         'fecha_postulacion',
@@ -22,9 +22,9 @@ class Postulacion extends Model
         'estado' => 'string',
     ];
 
-    public function postulante()
+    public function candidato()
     {
-        return $this->belongsTo(Postulante::class, 'postulante_id');
+        return $this->belongsTo(Candidato::class, 'candidato_id');
     }
 
     public function plaza()

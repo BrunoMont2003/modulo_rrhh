@@ -25,7 +25,7 @@ class Oferta extends Model
 
     public function postulacion(): BelongsTo
     {
-        return $this->belongsTo(Postulacion::class, 'postulante_id')
+        return $this->belongsTo(Postulacion::class, 'candidato_id')
             ->whereInEager('plaza_id', $this->plaza_id);
     }
 }
