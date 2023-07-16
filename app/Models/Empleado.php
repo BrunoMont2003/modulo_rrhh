@@ -26,7 +26,6 @@ class Empleado extends Model
     protected $table = 'empleados';
 
     protected $casts = [
-        'fecha_nacimiento' => 'date',
         'esDocente' => 'boolean',
     ];
 
