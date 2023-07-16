@@ -52,11 +52,11 @@ class ListTable extends Component
     public function render()
     {
         return view('livewire.puestos.list-table', [
-            'puestos' => Puesto::select('puestos.*', 'equipos.nombre as equipo')
-                ->where('puestos.nombre', 'LIKE', "%{$this->search}%")
-                ->join('equipos', 'puestos.equipo_id', '=', 'equipos.id')
-                ->orderBy($this->sortBy, $this->sortDirection)
-                ->paginate(10),
+            'puestos' => Puesto::listarPuestos(
+                $this->search,
+                $this->sortBy,
+                $this->sortDirection,
+            )
         ]);
     }
 }

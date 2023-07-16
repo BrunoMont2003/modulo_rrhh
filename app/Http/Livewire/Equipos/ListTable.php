@@ -52,9 +52,11 @@ class ListTable extends Component
     public function render()
     {
         return view('livewire.equipos.list-table', [
-            'equipos' => Equipo
-                ::where('nombre', 'LIKE', "%{$this->search}%")->orderBy($this->sortBy, $this->sortDirection)
-                ->paginate(10),
+            'equipos' => Equipo::listarEquipos(
+                $this->search,
+                $this->sortBy,
+                $this->sortDirection,
+            ),
         ]);
     }
 }

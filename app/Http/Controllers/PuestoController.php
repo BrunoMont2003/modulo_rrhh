@@ -54,7 +54,7 @@ class PuestoController extends Controller
     {
         return view(
             'puestos.create',
-            ['equipos' => Equipo::orderBy('nombre')->get()]
+            ['equipos' => Equipo::obtenerTodos()]
         );
     }
 
@@ -69,12 +69,12 @@ class PuestoController extends Controller
             $this->messages()
         );
 
-        Puesto::create($data);
+        $newPuesto = Puesto::crearPuesto($data);
 
         session()->flash(
             'toast',
             [
-                'message' => 'Puesto creado correctamente',
+                'message' => "Puesto {$newPuesto->nombre} creado correctamente",
                 'type' => 'success',
             ]
 
@@ -97,7 +97,7 @@ class PuestoController extends Controller
     {
         return view('puestos.edit', [
             'puesto' => $puesto,
-            'equipos' => Equipo::orderBy('nombre')->get()
+            'equipos' => Equipo::obtenerTodos(),
         ]);
     }
 
@@ -112,12 +112,11 @@ class PuestoController extends Controller
             $this->messages()
         );
 
-        $puesto->update($data);
-
+        $updatedPuesto = Puesto::actualizarPuesto($puesto, $data);
         session()->flash(
             'toast',
             [
-                'message' => 'Puesto actualizado correctamente',
+                'message' => "Puesto {$updatedPuesto->nombre} actualizado correctamente",
                 'type' => 'success',
             ]
 
@@ -131,12 +130,12 @@ class PuestoController extends Controller
      */
     public function destroy(Puesto $puesto)
     {
-        $puesto->delete();
+        $deletedPuesto = Puesto::eliminarPuesto($puesto);
 
         session()->flash(
             'toast',
             [
-                'message' => 'Puesto eliminado correctamente',
+                'message' => "Puesto {$deletedPuesto->nombre} eliminado correctamente",
                 'type' => 'success',
             ]
 

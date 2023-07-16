@@ -53,12 +53,12 @@ class EquipoController extends Controller
     {
         $data = $request->validate($this->rules(), $this->messages());
 
-        Equipo::create($data);
+        $newEquipo = Equipo::crearEquipo($data);
 
         session()->flash(
             'toast',
             [
-                'message' => 'Equipo creado correctamente',
+                'message' => "Equipo {$newEquipo->nombre} creado correctamente",
                 'type' => 'success',
             ]
         );
@@ -88,12 +88,12 @@ class EquipoController extends Controller
     {
         $data = $request->validate($this->rules($equipo), $this->messages());
 
-        $equipo->update($data);
+        $updatedEquipo = Equipo::actualizarEquipo($equipo, $data);
 
         session()->flash(
             'toast',
             [
-                'message' => 'Equipo actualizado correctamente',
+                'message' => "Equipo {$updatedEquipo->nombre} actualizado correctamente",
                 'type' => 'success',
             ]
         );
@@ -105,12 +105,12 @@ class EquipoController extends Controller
      */
     public function destroy(Equipo $equipo)
     {
-        $equipo->delete();
+        $deletedEquipo = Equipo::eliminarEquipo($equipo);
 
         session()->flash(
             'toast',
             [
-                'message' => 'Equipo eliminado correctamente',
+                'message' => "Equipo {$deletedEquipo->nombre} eliminado correctamente",
                 'type' => 'success',
             ]
         );
