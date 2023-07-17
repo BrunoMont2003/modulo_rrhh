@@ -99,7 +99,7 @@ class PostulacionController extends Controller
      */
     public function show(Postulacion $postulacion)
     {
-        //
+        return view('postulaciones.show', ['postulacion' => $postulacion]);
     }
 
     /**

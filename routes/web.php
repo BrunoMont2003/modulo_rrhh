@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/postulaciones', 'index')->name('postulaciones.index');
             Route::get('/postulaciones/create', 'create')->name('postulaciones.create');
             Route::get('/postulaciones/{postulacion}/edit', 'edit')->name('postulaciones.edit');
+            Route::get('/postulaciones/{postulacion}', 'show')->name('postulaciones.show');
             Route::post('/postulaciones', 'store')->name('postulaciones.store');
             Route::put('/postulaciones/{postulacion}', 'update')->name('postulaciones.update');
             Route::delete('/postulaciones/{candidato}/delete', 'destroyByCandidato')->name('postulaciones.destroyByCandidato');

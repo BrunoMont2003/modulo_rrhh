@@ -105,7 +105,7 @@ class CandidatoController extends Controller
      */
     public function show(Candidato $candidato)
     {
-        //
+        return view('candidatos.show', ['title' => 'Ver candidato', 'candidato' => $candidato]);
     }
 
     /**

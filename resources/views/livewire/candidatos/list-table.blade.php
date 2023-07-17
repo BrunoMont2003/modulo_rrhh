@@ -66,6 +66,10 @@
                             </a>
                         </td>
                         <td class="px-6 py-4 text-right inline-flex gap-2 items-center justify-center">
+                            <a href="{{ route('candidatos.show', $candidato->id) }}"
+                                class="font-medium text-green-600 dark:text-green-500">
+                                @livewire('icons.show', [], key('show-icon-' . $candidato->id))
+                            </a>
                             <a href="{{ route('candidatos.edit', $candidato->id) }}"
                                 class="font-medium text-blue-600 dark:text-blue-500">
                                 @livewire('icons.edit', [], key('edit-icon-' . $candidato->id))
